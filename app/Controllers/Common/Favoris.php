@@ -49,7 +49,6 @@ class Favoris extends BaseController
         }
 
         return $this->response->redirect(site_url('common/favoris'));
-        //return view('frontend/layout/favoris',$item);
     }
 
     private function exists($id)

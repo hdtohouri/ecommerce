@@ -88,6 +88,28 @@
 <?php include(APPPATH . 'Views/backend/modals/activate_customer_modal.php') ?>
 <?php include(APPPATH . 'Views/backend/modals/delete_customer_modal.php') ?>
 
+
+<script>
+    <?php if (session()->has('success_message')) : ?>
+        Toastify({
+            text: "<?= session('success_message') ?>",
+            duration: 5000,
+            position: "right",
+            gravity: "top",
+            close: true
+        }).showToast();
+    <?php elseif (session()->has('error_message')) : ?>
+        Toastify({
+            text: "<?= session('error_message') ?>",
+            duration: 5000,
+            position: "right",
+            gravity: "top",
+            close: true,
+            backgroundColor: "red"
+        }).showToast();
+    <?php endif; ?>
+</script>
+
 <script>
     $(document).on('click', '#desactiver_customer', function(e) {
         e.preventDefault();

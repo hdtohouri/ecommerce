@@ -14,7 +14,7 @@
                 <div class="mb-4 form-group">
                     Souhaitez vous activer ce compte ?
                     <h6>Cliquer Sur activer ou sur annuler</h6>
-                    <input type="hidden" name="customer_id"  value="<?= $customer['customers_id'] ?>">
+                    <input type="hidden" name="user_id"  value="<?= $customer['customers_id'] ?>">
                     <input type="hidden" name="action" value="activate">
                 </div>
             </div>

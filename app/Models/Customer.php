@@ -67,4 +67,49 @@ class Customer extends Model
             return false;
         }
     }
+
+    public function activate_customer($customer_id)
+    {
+        $builder = $this->db->table('customers');
+        $builder->where('customers_id', $customer_id);
+        $builder->where('customers_account_status', 'DESACTIVE'); 
+        $builder->update(['customers_account_status' => 'ACTIVE']);
+        if($this->db->affectedRows()==1)
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public function desactivate_customer($customer_id)
+    {
+        $builder = $this->db->table('customers');
+        $builder->where('customers_id', $customer_id);
+        $builder->where('customers_account_status', 'ACTIVE'); 
+        $builder->update(['customers_account_status' => 'DESACTIVE']);
+        if($this->db->affectedRows()==1)
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public function delete_customer($customer_id)
+    {
+        $builder = $this->db->table('customers');
+        $builder->where('customers_id', $customer_id);
+        $builder->delete();
+        if($this->db->affectedRows()==1)
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
 }

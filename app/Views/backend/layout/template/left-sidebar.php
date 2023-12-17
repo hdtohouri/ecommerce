@@ -61,7 +61,7 @@
 					</a>
 					<ul class="submenu">
 						<li><a href="">Liste des Commandes</a></li>
-						<li><a href="<?php echo base_url('common/dashboard/add_orders') ?>">Ajouter Commande</a></li>
+						<li><a href="<?php echo base_url('common/dashboard/manage_orders') ?>">Gestion des Commandes</a></li>
 					</ul>
 				</li>
 				<li class="dropdown">

@@ -99,7 +99,6 @@ class TwoFactor extends BaseController
                 echo view('backend/layout/two_factor', array('special_message' => $message));
                 return;
         }
-        //return view('backend/layout/two_factor_login');
     }
 
     public function login($token = null)
@@ -201,8 +200,6 @@ class TwoFactor extends BaseController
             return view('backend/layout/two_factor_login', array('error_message' => $message));
          }
         
-        
-        //return  view('backend/layout/reset_password');
     }
 
     public function desactivate()
@@ -242,8 +239,7 @@ class TwoFactor extends BaseController
             session()->setFlashdata('error_message', 'Une erreur est survenue, merci de reesayer.');
             return redirect()->to(base_url('common/dashboard/profil'));
         }
-        
-        //return view('backend/layout/profil');
+
     }
 
     public function activate()
@@ -284,6 +280,5 @@ class TwoFactor extends BaseController
             return redirect()->to(base_url('common/dashboard/profil'));
         }
         
-        //return view('backend/layout/profil');
     }
 }

@@ -677,18 +677,58 @@ class Dashboard extends BaseController
         }else{
             $pager = \Config\Services::pager();
             $customers_list = new Customer();
-            //$data['list_customers'] = $customers_list->list_customers();
-
-           
-           
         
             $data = [
                 'customers' => $customers_list->orderBy('customers_id', 'desc')->paginate(10, 'customers'),
                 'pager' => $customers_list->pager,
             ];
+
+
+            $action = $this->request->getPost('action');
             
-            return view('backend/layout/list_customers',$data);       
-        }    
+             if($action === 'desactivate')
+            {
+                $customers_id = $this->request->getPost('user_id');
+                $desactivate = $customers_list->desactivate_customer($customers_id);
+
+                if (!empty($desactivate)) {
+                    session()->setFlashdata('success_message', "Le compte à été désactivé avec succès");
+                    return redirect()->to(base_url('common/dashboard/list_customers'));
+                }else{
+                    session()->setFlashdata('error_message', "ERREUR, Merci de reessayer");
+                }
+            }
+           elseif($action === 'activate')
+            {
+                $customers_id = $this->request->getPost('user_id');
+                $activate = $customers_list->activate_customer($customers_id);
+                if (!empty($activate)) {
+
+                    session()->setFlashdata('success_message', "Le compte à été activé avec succès");
+                    return redirect()->to(base_url('common/dashboard/list_customers'));
+                }else{
+                    session()->setFlashdata('error_message', "ERREUR, Merci de reessayer");
+                }
+            }
+
+            elseif($action === 'delete')
+            {
+                $customers_id = $this->request->getPost('user_id');
+                $delete = $customers_list->delete_customer($customers_id);
+                if (!empty($delete)) {
+                    
+                    session()->setFlashdata('success_message', "Le compte à été supprimé avec succès");
+                    return redirect()->to(base_url('common/dashboard/list_customers'));
+                }
+                else{
+                    session()->setFlashdata('error_message', "ERREUR, Merci de reessayer");
+                }
+            }
+            
+                return view('backend/layout/list_customers',$data);
+        }
+            
+            //return view('backend/layout/list_customers',$data);          
                     
     }
 
@@ -712,7 +752,7 @@ class Dashboard extends BaseController
                     
     }
 
-    /*public function add_orders()
+    public function manage_orders()
     {
         if (!session('logged_in') ) {
             $message = "<div class='alert alert-danger text-center' role='alert'>Veuillez vous identifier !</div>";
@@ -720,24 +760,14 @@ class Dashboard extends BaseController
         } 
         else {
 
-            $product_list = new Products();
-            $data['articles'] = $product_list->list_product();
-
             $validation_rules = array(
-                'product_name' => [
-                    'label'  => 'Choisir l\'Article',
-                    'rules'  => 'required',
+                'order_number' => [
+                    'label'  => 'Numero de commande',
+                    'rules'  => 'required|numeric|exact_length[6]',
                     'errors' => [
-                        'required' =>  'Merci de selectionner l\'Article à ajouter à la commande',
-                    ],
-                ],
-
-                'product_quantity' => [
-                    'label'  => 'Veuillez saisir la quantité',
-                    'rules'  => 'required|numeric',
-                    'errors' => [
-                        'required' =>  'Veuillez saisir la quantitée de l\'article',
-                        'numeric' =>  'Merci de saisir un chiffre',
+                        'required' =>  'Merci de saisir le numero de commande',
+                        'numeric' =>   'Merci de saisir le numero de commande',
+                        'exact_length' =>   'Le numero de commande doit contenir 6 chiffres',
                     ],
                 ],
             );
@@ -747,11 +777,11 @@ class Dashboard extends BaseController
                 switch ($method) {
                     case 'post':
                         $data['validation'] = $this->validator;
-                        echo view('backend/layout/add_orders', $data);
+                        echo view('backend/layout/manage_orders');
                         break;
                     case 'get':
-                        $message = $this->session->getFlashdata('special_message');
-                        echo view('backend/layout/add_orders', $data, array('special_message' => $message));
+                        $message = session()->getFlashdata('special_message');
+                        echo view('backend/layout/manage_orders', array('special_message' => $message));
                         break;
                     default:
                         die('something is wrong here');
@@ -759,20 +789,16 @@ class Dashboard extends BaseController
                 return;
             }
 
+            $orders_manager = new Orders();
 
-            // $orders = $this->request->getPost('orders');
-            $product_name = $this->request->getPost('product_name');
-            $product_quantity = $this->request->getPost('product_quantity');
+            $order_number = $this->request->getPost('order_number');
 
-            $data['orders_data'] = [
-                'product_name' => $product_name,
-                'product_quantity' => $product_quantity,
-                //'product'  => $orders
-            ];
-            //var_dump($data);
-            return view('backend/layout/add_orders', $data);
+            $order = $orders_manager->find($order_number);
+            
+            //dd($order);
+            return view('backend/layout/manage_orders');
         }
-    }  */
+    }  
 
     public function add_profil_pic()
     {
