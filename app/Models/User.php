@@ -16,7 +16,7 @@ class User extends Model
     public function get_permissions($user_name, $password)
     {
         $builder = $this->db->table('users');
-        $builder->select('user_id,user_name,full_name,user_password,user_email,can_add_admin,account_status,profil_image');
+        $builder->select('user_id,user_name,full_name,user_password,user_email,can_add_admin,account_status,profil_image,double_factor');
         $builder->where('user_name', $user_name);
         $result = $builder->get();
         $user_details = $result->getRowArray();
@@ -219,6 +219,61 @@ class User extends Model
         $result = $builder->get();
         $user_details = $result->getRowArray();
         return  ['user_details' => $user_details];
+    }
+
+    public function insert_code($code, $id)
+    {
+        $data = [
+            'double_factor_code' => $code
+        ];
+        $builder = $this->db->table('users');
+        $builder->where('user_id', $id);
+        $builder->update($data); 
+        if ($this->db->affectedRows() == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function verifyCode($code)
+    {
+        $builder = $this->db->table('users');
+        $builder->select('user_id,user_name,full_name,user_password,user_email,can_add_admin,account_status,profil_image,double_factor,double_factor_code');
+        $builder->where('double_factor_code', $code);
+        $result = $builder->get();
+        $row = $result->getRowArray();
+        if (count($result->getResultArray()) == 1) {
+            return ['row' => $row];
+        } else {
+            return false;
+        }
+    }
+
+    public function desactivate_2factor($user_id){
+        $builder= $this->db->table('users');
+        $builder-> where('user_id',$user_id);
+        $builder->update(['double_factor' => 'NO']);
+        if($this->db->affectedRows()==1)
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public function activate_2factor($user_id){
+        $builder= $this->db->table('users');
+        $builder-> where('user_id',$user_id);
+        $builder->update(['double_factor' => 'YES']);
+        if($this->db->affectedRows()==1)
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
     }
     
 }

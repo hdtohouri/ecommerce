@@ -29,7 +29,7 @@
     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-30">
         <div class="pd-20 card-box height-100-p">
             <div class="profile-photo">
-                
+
                 <?php if (session('user_pic')) : ?>
                     <a href="javascript:;" id="profil-pic-modal"> <img src="<?php echo session('user_pic'); ?>" alt="" class="avatar-photo"></a>
                 <?php else : ?>
@@ -75,7 +75,7 @@
                             <a class="nav-link" data-toggle="tab" href="#password" role="tab">Modifier mot de passe</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#double_factor" role="tab">Authentification Double Facteur</a>
+                            <a class="nav-link" data-toggle="tab" href="#double_factor" role="tab"> Double Facteur</a>
                         </li>
                     </ul>
                     <div class="tab-content">
@@ -126,7 +126,7 @@
                                     <?= csrf_field(); ?>
                                     <div class="form-group">
                                         <label for="">Mot de passe Actuel</label>
-                                        <input type="password" name="actuelpassword" class="form-control"  value="<?= set_value('actuelpassword') ?>" placeholder="Veuillez saisir votre Mot de passe Actuel">
+                                        <input type="password" name="actuelpassword" class="form-control" value="<?= set_value('actuelpassword') ?>" placeholder="Veuillez saisir votre Mot de passe Actuel">
                                         <?php if (isset($validation) && $validation->hasError('actuelpassword')) {
                                             echo "<div style='color: #ff0000'>" . $validation->getError('actuelpassword') . "</div>";
                                         } ?>
@@ -162,68 +162,76 @@
                         <!-- User Double Factor Tab start -->
                         <div class="tab-pane fade" id="double_factor" role="tabpanel">
                             <div class="pd-20 profile-task-wrap">
-                                <form action="<?php echo base_url("common/dashboard/password_update") ?>" method="post">
+
+                                <h6>AUTHENTIFICATION DOUBLE FACTEUR</h6><br>
+                                <p>Si activé, un code de sécurité vous sera envoyé par email lors de chaque tentative de connexion. </p>
+
+                                <?php if (session('double_factor') == 'YES') :?>
+
+                                <p>Etat Actuel : ACTIVE</p><br>
+
+                                <form action="<?php echo base_url("common/twofactor/desactivate") ?>" method="post">
                                     <?= csrf_field(); ?>
                                     <div class="form-group">
-                                        <label for="">Mot de passe Actuel</label>
-                                        <input type="password" name="actuelpassword" class="form-control"  value="<?= set_value('actuelpassword') ?>" placeholder="Veuillez saisir votre Mot de passe Actuel">
-                                        <?php if (isset($validation) && $validation->hasError('actuelpassword')) {
-                                            echo "<div style='color: #ff0000'>" . $validation->getError('actuelpassword') . "</div>";
-                                        } ?>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="">Nouveau Mot de passe</label>
-                                                <input type="password" name="password1" class="form-control" value="<?= set_value('password1') ?>" placeholder="Veuillez saisir votre nouveau Mot de passe">
-                                                <?php if (isset($validation) && $validation->hasError('password1')) {
-                                                    echo "<div style='color: #ff0000'>" . $validation->getError('password1') . "</div>";
-                                                } ?>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="">Ressaisir nouveau Mot de passe</label>
-                                                <input type="password" name="password2" class="form-control" value="<?= set_value('password2') ?>" placeholder="Veuillez ressaisir votre nouveau Mot de passe">
-                                                <?php if (isset($validation) && $validation->hasError('password2')) {
-                                                    echo "<div style='color: #ff0000'>" . $validation->getError('password2') . "</div>";
-                                                } ?>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <button type="submit" class="btn btn-primary">Soumettre</button>
+                                    <?php
+                                        if (isset($validation))
+                                        echo "<div style='color: #ff0000'>" . $validation->listErrors() . "</div>";
+                                    ?>
                                     </div>
 
+                                    <div class="form-group">
+                                        <input type="hidden" name="UserCode" value="<?php echo session('user_id') ?>" />
+                                        <button type="submit" class="btn btn-primary">Desactiver</button>
+                                    </div>
                                 </form>
+                               
                             </div>
+                            <?php else : ?>
+                                <p>Etat Actuel : INACTIVE</p><br>
+
+                                <form action="<?php echo base_url("common/twofactor/activate") ?>" method="post">
+                                    <?= csrf_field(); ?>
+                                    <div class="form-group">
+                                    <?php
+                                        if (isset($validation))
+                                        echo "<div style='color: #ff0000'>" . $validation->listErrors() . "</div>";
+                                    ?>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input type="hidden" name="UserCode" value="<?php echo session('user_id') ?>" />
+                                        <button type="submit" class="btn btn-primary">Activer</button>
+                                    </div>
+                                </form>
+                                <?php endif; ?>
                         </div>
-                        <!-- User Double Factor Tab End -->
                     </div>
+                    <!-- User Double Factor Tab End -->
                 </div>
             </div>
         </div>
     </div>
 </div>
+</div>
 
 <?php include(APPPATH . 'Views/backend/modals/add_profil_pic.php') ?>
 <script>
-    <?php if (session()->has('success_message')): ?>
+    <?php if (session()->has('success_message')) : ?>
         Toastify({
             text: "<?= session('success_message') ?>",
-            duration: 5000, 
+            duration: 5000,
             position: "right",
             gravity: "top",
             close: true
         }).showToast();
-    <?php elseif (session()->has('error_message')): ?>
+    <?php elseif (session()->has('error_message')) : ?>
         Toastify({
             text: "<?= session('error_message') ?>",
             duration: 5000,
             position: "right",
             gravity: "top",
             close: true,
-            backgroundColor: "red"  
+            backgroundColor: "red"
         }).showToast();
     <?php endif; ?>
 </script>
@@ -242,7 +250,5 @@
         modal.find('input[name="user_id"]').val(userId);
         modal.modal('show');
     });
-    
-    
 </script>
 <?= $this->endSection() ?>

@@ -69,21 +69,29 @@ class Login extends BaseController
             echo view('backend/layout/login', array('special_message' => $message));
             return;
         } else {
-            if($user_details['user_details']['account_status']==='ACTIVE'){
-                $data = array(
-                    'user_id'       => $user_details['user_details']['user_id'],
-                    'user_name'       => $user_details['user_details']['user_name'],
-                    'full_name'    => $user_details['user_details']['full_name'],
-                    'user_email'  => $user_details['user_details']['user_email'],
-                    'can_add_admin'  => $user_details['user_details']['can_add_admin'],
-                    'account_status'  => $user_details['user_details']['account_status'],
-                    'user_pic'  => $user_details['user_details']['profil_image'],
-                    'logged_in'         => true
-                ); 
+            if($user_details['user_details']['account_status']==='ACTIVE'){              
+
+                if($user_details['user_details']['double_factor']==='YES'){
+
+                    return redirect()->to(base_url('common/twofactor'));
+                }
+                else{
+                    $data = array(
+                        'user_id'       => $user_details['user_details']['user_id'],
+                        'user_name'       => $user_details['user_details']['user_name'],
+                        'full_name'    => $user_details['user_details']['full_name'],
+                        'user_email'  => $user_details['user_details']['user_email'],
+                        'can_add_admin'  => $user_details['user_details']['can_add_admin'],
+                        'account_status'  => $user_details['user_details']['account_status'],
+                        'user_pic'  => $user_details['user_details']['profil_image'],
+                        'double_factor'  => $user_details['user_details']['double_factor'],
+                        'logged_in'         => true
+                    ); 
+                    $session->set($data);
     
-                $session->set($data);
-    
-                return redirect()->to(base_url('common/dashboard'));
+                    return redirect()->to(base_url('common/dashboard'));
+                }
+                
             }
             else{
                 $message = '<div class="alert alert-danger alert-dismissible fade show">
