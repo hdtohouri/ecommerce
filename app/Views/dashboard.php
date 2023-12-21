@@ -51,7 +51,7 @@
                 </div>
                 <div class="widget-icon">
                     <div class="icon">
-                        <i class="icon-copy fa fa-stethoscope" aria-hidden="true"></i>
+                        <i class="icon-copy fa fa-money" aria-hidden="true"></i>
                     </div>
                 </div>
             </div>

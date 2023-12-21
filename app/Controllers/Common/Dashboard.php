@@ -746,6 +746,35 @@ class Dashboard extends BaseController
                 'orders' => $product_list->orderBy('id_product', 'desc')->paginate(8, 'orders'),
                 'pager' => $product_list->pager,
             ];
+
+            $action = $this->request->getPost('action');
+            
+            if($action === 'edit')
+           {
+               $product_id = $this->request->getPost('user_id');
+               //$edit = $product_list->desactivate_customer($product_id);
+
+               if (!empty($edit)) {
+                   session()->setFlashdata('success_message', "L'article a été édité avec succès");
+                   return redirect()->to(base_url('common/dashboard/list_product'));
+               }else{
+                   session()->setFlashdata('error_message', "ERREUR, Merci de reessayer");
+               }
+           }
+
+           elseif($action === 'delete')
+           {
+               $product_id = $this->request->getPost('id_product');
+               $delete = $product_list->delete($product_id);
+               if (!empty($delete)) {
+                   
+                   session()->setFlashdata('success_message', "L'article' à été supprimé avec succès");
+                   return redirect()->to(base_url('common/dashboard/list_product'));
+               }
+               else{
+                   session()->setFlashdata('error_message', "ERREUR, Merci de reessayer");
+               }
+           }
             
             return view('backend/layout/list_product',$data);       
         }    
@@ -766,7 +795,7 @@ class Dashboard extends BaseController
                     'rules'  => 'required|numeric|exact_length[6]',
                     'errors' => [
                         'required' =>  'Merci de saisir le numero de commande',
-                        'numeric' =>   'Merci de saisir le numero de commande',
+                        'numeric' =>   'Le numero de commande ne doit contenir que des chiffres',
                         'exact_length' =>   'Le numero de commande doit contenir 6 chiffres',
                     ],
                 ],
@@ -777,7 +806,7 @@ class Dashboard extends BaseController
                 switch ($method) {
                     case 'post':
                         $data['validation'] = $this->validator;
-                        echo view('backend/layout/manage_orders');
+                        echo view('backend/layout/manage_orders',$data);
                         break;
                     case 'get':
                         $message = session()->getFlashdata('special_message');
@@ -793,12 +822,37 @@ class Dashboard extends BaseController
 
             $order_number = $this->request->getPost('order_number');
 
-            $order = $orders_manager->find($order_number);
+            //$order = $orders_manager->find($order_number);
+            $order = $orders_manager->select('orders.*, order_infos.*,cart.*,products.*')
+                    ->join('order_infos', 'order_infos.order_infos_id = orders.user_id')
+                    ->join('cart', 'cart.order_number = orders.order_number')
+                    ->join('products', 'products.id_product = cart.product_id')
+                    ->where('orders.order_number', $order_number)
+                    ->first();
+
+            if( $order)
+            {
+                //dd($order);
+                return view('backend/layout/search_order_result',$order);
+                //return $this->response->redirect(site_url('common/dashboard/orders_action'));
+            }
+            else{
+                session()-> setFlashdata('special_message','Aucune commande trouvée');
+                //$message = "<div class='alert alert-danger text-center' role='alert'>Aucune commande trouvée</div>";
+                return redirect()->to(base_url('common/dashboard/manage_orders'));
+            }
             
-            //dd($order);
             return view('backend/layout/manage_orders');
         }
     }  
+
+    public function orders_action()
+    {
+        $orders_manager = new Orders();
+
+        //$find = $orders_manager->find($order);
+        return view('backend/layout/search_order_result');
+    }
 
     public function add_profil_pic()
     {
@@ -838,10 +892,17 @@ class Dashboard extends BaseController
             $profil_image = $this->request->getFile('file');
 
             $data = [];
-
+            $old_pic_url =  $user_manager->asObject()->where('user_id',session('user_id'))->first();
+            $old_pic = $old_pic_url->profil_image;
+            $file_name = basename($old_pic);
+            
             $newName = $profil_image->getRandomName();
-                $profil_image->move('./uploads', $newName);
-                $url = base_url().'uploads'.'/'.$newName;
+             if( $profil_image->move('./uploads', $newName)){
+                    $url = base_url().'uploads'.'/'.$newName;
+                    if($old_pic != null){
+                        unlink('./uploads/'.$file_name);
+                    }
+                }
 
             if (!empty($url)) {
                 $data['profil_image'] = $url;

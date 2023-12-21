@@ -96,12 +96,12 @@
                 </div>
                 <div class="font-14 text-right">
                     <div><i class="icon-copy ion-arrow-up-c"></i> 2.69%</div>
-                    <div class="font-12">Since last month</div>
+                    <div class="font-12">Que le mois dernier</div>
                 </div>
             </div>
             <div class="d-flex justify-content-between align-items-end">
                 <div class="text-white">
-                    <div class="font-14">Appointment</div>
+                    <div class="font-14">Visites</div>
                     <div class="font-24 weight-500">1865</div>
                 </div>
                 <div class="max-width-150" style="position: relative;">
@@ -181,16 +181,16 @@
         <div class="card-box min-height-200px pd-20" data-bgcolor="#265ed7" style="background-color: rgb(38, 94, 215);">
             <div class="d-flex justify-content-between pb-20 text-white">
                 <div class="icon h1 text-white">
-                    <i class="fa fa-stethoscope" aria-hidden="true"></i>
+                    <i class=" fa fa-money" aria-hidden="true"></i>
                 </div>
                 <div class="font-14 text-right">
                     <div><i class="icon-copy ion-arrow-down-c"></i> 3.69%</div>
-                    <div class="font-12">Since last month</div>
+                    <div class="font-12">Que le mois dernier</div>
                 </div>
             </div>
             <div class="d-flex justify-content-between align-items-end">
                 <div class="text-white">
-                    <div class="font-14">Surgery</div>
+                    <div class="font-14">visite</div>
                     <div class="font-24 weight-500">250</div>
                 </div>
                 <div class="max-width-150" style="position: relative;">

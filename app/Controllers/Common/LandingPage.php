@@ -135,15 +135,15 @@ class LandingPage extends BaseController
     public function get_details($id)
     {
         $product_manager = new Products();
-        $product = $product_manager->find($id);
-
+        //$product = $product_manager->find($id);
+        $product = $product_manager->where('product_name', $id)->first();
         $item = array(
             'id' => $product['id_product'],
             'name' => $product['product_name'],
             'price' => $product['product_price'],
             'image' => $product['product_image'],
             'description' => $product['product_description'],
-            'quantity' => $product['product_quantity'],
+            'stock_quantity' => $product['product_quantity'],
             'quantity' => 1,
         );
         //return $this->response->redirect(site_url('common/landingpage/product_details'));

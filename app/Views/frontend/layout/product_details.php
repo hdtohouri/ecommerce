@@ -18,7 +18,7 @@
                 <a href="<?php echo base_url('common/shoppingcart/cart/'.$item['id']) ?>" class="primary-btn">Ajouter au panier</a>
                 <a href="<?php echo base_url('common/favoris/add_favoris/'.$item['id']) ?>" class="heart-icon"><span class="icon_heart_alt"></span></a>
                 <ul>
-                    <li><b>Quantité en stock</b> <span><?= $item['quantity'] ?></span></li>
+                    <li><b>Quantité en stock</b> <span><?= $item['stock_quantity'] ?></span></li>
                     <li><b>Taille</b> <span>01 day shipping. <samp>Free pickup today</samp></span></li>
                     <li><b>Couleur</b> <span>0.5 kg</span></li>
                 </ul>

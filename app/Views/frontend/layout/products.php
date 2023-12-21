@@ -147,11 +147,11 @@
                             <div class="product__item__pic set-bg" data-setbg="<?= $product['product_image'] ?>" style="background-image: url(&quot;<?= $product['product_image'] ?>&quot;);">
                                 <ul class="product__item__pic__hover">
                                     <li><a href="<?php echo base_url('common/favoris/add_favoris/'.$product['id_product']) ?>"><i class="fa fa-heart"></i></a></li>
-                                    <li><a href="<?php echo base_url('common/landingpage/get_details/'.$product['id_product'])  ?>"  ><i class="fa fa-shopping-cart"></i></a></li>
+                                    <li><a href="<?php echo base_url('common/landingpage/get_details/'.$product['product_name'])  ?>"  ><i class="fa fa-shopping-cart"></i></a></li>
                                 </ul>
                             </div>
                             <div class="product__item__text">
-                                <h6><a href="<?php echo base_url('common/landingpage/get_details/'.$product['id_product']) ?>"><?= $product['product_name'] ?></a></h6>
+                                <h6><a href="<?php echo base_url('common/landingpage/get_details/'.$product['product_name']) ?>"><?= $product['product_name'] ?></a></h6>
                                 <h5><?= $product['product_price'] ?> XOF</h5>
                             </div>
                         </div>
