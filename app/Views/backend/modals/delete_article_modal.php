@@ -14,7 +14,7 @@
                 <div class="mb-4 form-group">
                     Souhaitez vous supprimer cet article ?
                     <h6>Cliquer Sur supprimer ou sur fermer pour annuler</h6>
-                    <input type="text" name="id_product"  value="<?php echo $product['id_product'] ?>">
+                    <input type="hidden" name="id_product"  value="<?= $product['id_product'] ?>">
                     <input type="hidden" name="action" value="delete">
                 </div>
             </div>

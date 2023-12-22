@@ -24,6 +24,26 @@ class Products extends Model
             return false;
         }
     }
+
+    public function update_articles_data($id, $data)
+    {
+        $builder = $this->db->table('products');
+        $builder->where('id_product', $id);
+
+        foreach ($data as $key => $value) {
+            if (!empty($value)) {
+                $builder->set($key, $value);
+            }
+        }
+        
+        $builder->update();
+
+        if ($this->db->affectedRows() == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     
     
 }

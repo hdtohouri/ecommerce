@@ -748,13 +748,99 @@ class Dashboard extends BaseController
             ];
 
             $action = $this->request->getPost('action');
-            
-            if($action === 'edit')
+        
+            if($action === 'editer')
            {
-               $product_id = $this->request->getPost('user_id');
-               //$edit = $product_list->desactivate_customer($product_id);
 
-               if (!empty($edit)) {
+            $validation_rules = array(
+                'Nom_article' => [
+                    'label'  => "Veuillez saisir le nom de l'article",
+                    'rules'  => 'permit_empty|min_length[3]',
+                    'errors' => [
+                        'min_length' => "Le code doit contenir plus de 3 charateres"
+                    ],
+                ],
+                'file' => [
+                    'permit_empty',
+                    'is_image[file]',
+                    'uploaded[file]',
+                    'mime_in[file,image/jpg,image/jpeg,image/png,image/webp]',
+                    'max_size[file,1024]',
+                    'errors' => [
+                        'uploaded' => "Le format d'image n'est pas pris en charge"
+                    ],
+                ],
+                'prix_unitaire' => [
+                    'label'  => "Veuillez saisir le prix unitaire de l'article",
+                    'rules'  => 'permit_empty|numeric',
+                    'errors' => [
+                        'numeric' => "Veuillez saisir la quantité",
+                    ],
+                ],
+                'quantité_article' => [
+                    'label'  => "Veuillez saisir la quantité de l'article",
+                    'rules'  => 'numeric',
+                    'errors' => [
+                        'numeric' => "Veuillez saisir la quantité",
+                    ],
+                ],
+                
+            );
+
+            if( $this->validate($validation_rules) === false )
+            {
+                $method = $this->request->getMethod();
+                switch( $method ){
+                    case 'post':
+                        echo view('backend/layout/list_product',$data, array('validation' => $this->validator));
+                        break;
+                    case 'get':
+                        $message = $this->session->getFlashdata('special_message');
+                        echo view('backend/layout/list_product',$data, array('special_message' => $message));
+                        break;
+                    default:
+                        die('something is wrong here');
+                }
+
+            }
+
+            $article_name = $this->request->getPost('Nom_article',FILTER_SANITIZE_STRING);
+            $article_description = $this->request->getPost('description_article',FILTER_SANITIZE_STRING);
+            $article_quantity = $this->request->getPost('quantité_article',FILTER_SANITIZE_NUMBER_INT);
+            $article_image = $this->request->getFile('file');
+            $product_id = $this->request->getPost('id_product');
+            
+            $array = [];
+
+            if($article_image->isValid()){
+                $product_info = $product_list->asObject()->where('id_product',$product_id )->first();
+                $image_url = $product_info->product_image;
+                $image_name = basename($image_url);
+                if(!empty($image_name)){
+                    unlink('./uploads/'.$image_name);
+                }
+
+                $newName = $article_image->getRandomName();
+                $article_image->move('./uploads', $newName);
+                $url = base_url().'uploads'.'/'.$newName;
+                $array['product_image'] = $url;
+            }
+            
+            if (!empty($article_name)) {
+                $array['product_name'] = $article_name;
+            }
+            
+            if (!empty($article_description)) {
+                $array['product_description'] = $article_description;
+            }
+            if (!empty($article_quantity)) {
+                $array['product_quantity'] = $article_quantity;
+            }
+
+               
+               $editer = $product_list->update_articles_data($product_id,$array);
+
+               if (!empty($editer)) {
                    session()->setFlashdata('success_message', "L'article a été édité avec succès");
                    return redirect()->to(base_url('common/dashboard/list_product'));
                }else{
@@ -765,10 +851,14 @@ class Dashboard extends BaseController
            elseif($action === 'delete')
            {
                $product_id = $this->request->getPost('id_product');
+               $product_info = $product_list->asObject()->where('id_product',$product_id )->first();
+               $image_url = $product_info->product_image;
+               $image_name = basename($image_url);
                $delete = $product_list->delete($product_id);
                if (!empty($delete)) {
                    
                    session()->setFlashdata('success_message', "L'article' à été supprimé avec succès");
+                   unlink('./uploads/'.$image_name);
                    return redirect()->to(base_url('common/dashboard/list_product'));
                }
                else{
@@ -776,7 +866,8 @@ class Dashboard extends BaseController
                }
            }
             
-            return view('backend/layout/list_product',$data);       
+            return view('backend/layout/list_product',$data); 
+              
         }    
                     
     }
@@ -838,7 +929,6 @@ class Dashboard extends BaseController
             }
             else{
                 session()-> setFlashdata('special_message','Aucune commande trouvée');
-                //$message = "<div class='alert alert-danger text-center' role='alert'>Aucune commande trouvée</div>";
                 return redirect()->to(base_url('common/dashboard/manage_orders'));
             }
             

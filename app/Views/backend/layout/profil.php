@@ -37,9 +37,6 @@
                 <?php endif; ?>
             </div>
             <h5 class="text-center h5 mb-0"><?php echo session('user_fullname'); ?></h5>
-            <p class="text-center text-muted font-14">
-                <?php echo session('user_function'); ?>
-            </p>
             <div class="profile-info">
                 <h5 class="mb-20 h5 text-blue">Informations</h5>
                 <ul>
