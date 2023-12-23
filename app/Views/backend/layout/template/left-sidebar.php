@@ -60,7 +60,6 @@
 						<span class="micon dw dw-shopping-basket-1"></span><span class="mtext">Commandes</span>
 					</a>
 					<ul class="submenu">
-						<li><a href="">Liste des Commandes</a></li>
 						<li><a href="<?php echo base_url('common/dashboard/manage_orders') ?>">Gestion des Commandes</a></li>
 					</ul>
 				</li>
@@ -69,8 +68,7 @@
 						<span class="micon dw dw-analytics1"></span><span class="mtext">Etat des stocks</span>
 					</a>
 					<ul class="submenu">
-						<li><a href="">Liste des Commandes</a></li>
-						<li><a href="">Ajouter Commande</a></li>
+						<li><a href="">Historique</a></li>
 					</ul>
 				</li>
 				<li>

@@ -98,7 +98,7 @@ class LandingPage extends BaseController
             'object'=>$object,
             'message'=>$user_message,
         ];
-        //var_dump($data);
+
         $contactus_manager = new Customer();
         $user_message= $contactus_manager->insert_contact_us($data);
         if(empty($user_message)){
@@ -129,34 +129,30 @@ class LandingPage extends BaseController
 
         return view('frontend/layout/products', $data);
     }
-
-    public function product_details()
-    {
-        //$data['items'] = array_values($item);
-        //return view('frontend/layout/product_details', $data);
-    }
     
-    public function get_details($id)
+    public function get_details($id =null)
     {
         $product_manager = new Products();
-        
-        $product = $product_manager->where('product_name', $id)->first();
-        $item = array(
-            'id' => $product['id_product'],
-            'name' => $product['product_name'],
-            'price' => $product['product_price'],
-            'image' => $product['product_image'],
-            'description' => $product['product_description'],
-            'stock_quantity' => $product['product_quantity'],
-            'quantity' => 1,
-        );
-        $similaire = $product_manager->asObject()->where('id_category',$product['id_category'])->findAll();
-        $data = [
-            'item'=> $item,
-            'similaire'=> $similaire
-        ];
-        //return $this->response->redirect(site_url('common/landingpage/product_details'));
-        return view('frontend/layout/product_details',$data);
+        if(isset($id) && $id != NULL){
+            $product = $product_manager->where('product_name', $id)->first();
+            $item = array(
+                'id' => $product['id_product'],
+                'name' => $product['product_name'],
+                'price' => $product['product_price'],
+                'image' => $product['product_image'],
+                'description' => $product['product_description'],
+                'stock_quantity' => $product['product_quantity'],
+                'quantity' => 1,
+            );
+            $similaire = $product_manager->asObject()->where('id_category',$product['id_category'])->findAll();
+            $data = [
+                'item'=> $item,
+                'similaire'=> $similaire
+            ];
+
+            return view('frontend/layout/product_details',$data);
+        }
+        return redirect()->to(base_url('common/landingpage/products'));
     }
 
 

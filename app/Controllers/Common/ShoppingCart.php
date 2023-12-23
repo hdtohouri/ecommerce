@@ -16,8 +16,10 @@ class ShoppingCart extends BaseController
     }
 
     public function index()
-    {
-        $data['items'] = array_values(session('cart'));
+        { if(session('cart')){
+            $data['items'] = array_values(session('cart'));
+        }
+        
         $data['total'] = $this->total();
         return view('frontend/layout/shopping_cart', $data);
     }
@@ -71,10 +73,14 @@ class ShoppingCart extends BaseController
     private function total()
     {
         $s = 0;
-        $items = array_values(session('cart'));
-        foreach ($items as $item) {
-            $s += $item['price'] * $item['quantity'];
+        
+        if(session('cart')){
+            $items = array_values(session('cart'));
+            foreach ($items as $item) {
+                $s += $item['price'] * $item['quantity'];
+            }
         }
+        
         return $s;
     }
 

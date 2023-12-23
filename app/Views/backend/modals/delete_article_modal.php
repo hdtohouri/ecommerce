@@ -14,8 +14,10 @@
                 <div class="mb-4 form-group">
                     Souhaitez vous supprimer cet article ?
                     <h6>Cliquer Sur supprimer ou sur fermer pour annuler</h6>
-                    <input type="hidden" name="id_product"  value="<?= $product['id_product'] ?>">
-                    <input type="hidden" name="action" value="delete">
+                    <?php if (isset($product['id_product'])) : ?>
+                        <input type="hidden" name="id_product"  value="<?= $product['id_product'] ?>">
+                        <input type="hidden" name="action" value="delete">
+                    <?php endif; ?>
                 </div>
             </div>
             <div class="modal-footer">

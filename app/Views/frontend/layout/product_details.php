@@ -1,5 +1,6 @@
 <?= $this->extend('frontend/layout/frontend_template') ?>
 <?= $this->section('content') ?>
+<?php if(isset($item) && $item != NULL ): ?>
 <div class="container">
     <div class="row">
         <div class="col-lg-6 col-md-6">
@@ -121,7 +122,9 @@
         </div>
     </div>
 </section>
-
+<?php else : ?>
+        <h6>Une erreur est survenue</h6>
+<?php endif; ?>
 <script>
     <?php if (session()->has('success_message')) : ?>
         Toastify({

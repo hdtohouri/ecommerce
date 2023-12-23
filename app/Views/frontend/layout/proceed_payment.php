@@ -66,10 +66,10 @@
 
                             <?php foreach ($items as $item) : ?>
                                 <ul>
-                                    <li><?= $item['name'] ?> <span><?= $item['price'] * $item['quantity'] ?></span></li>
+                                    <li><?= $item['name'] ?> <span><?=number_to_currency( $item['price'] * $item['quantity'], 'XAF') ?></span></li>
                                 </ul>
                             <?php endforeach ?>
-                            <div class="checkout__order__total">Total <span><?= $total ?></span></div>
+                            <div class="checkout__order__total">Total <span><?=number_to_currency( $total, 'XAF') ?></span></div>
                             <div class="checkout__input__checkbox">
                             <label for="">Methode de paiement</label>
                             <select class="form-select" aria-label="Default select example" name ="mode_paiement">

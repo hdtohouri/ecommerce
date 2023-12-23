@@ -32,10 +32,11 @@
     </div><br><br>
 
     <div class="card-box pb-10">
-        <div class="h5 pd-20 mb-0">Commande trouvée</div>
+        <div class="h5 pd-20 mb-0 text-success">Commande trouvée</div>
 
         <h6 class="h6 pd-20 mb-0">Client : <b><?php echo $customer_name ?></b></h6>
         <h6 class="h6 pd-20 mb-0">Numero : <b><?php echo $customer_number ?></b></h6>
+        <p class="h6 pd-20 mb-0">Mode : <b><?php echo $paiement_mode ?></b></p>
         <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
             <div class="row">
                 <div class="col-sm-12 col-md-6"></div>

@@ -31,7 +31,7 @@
                 <img src="<?php echo base_url("/frontend/img/logo.png") ?>" height="150" width="150" alt="">
             </div>
         </div>
-        <h4 class="text-center mb-30 weight-600">Message</h4>
+        <h4 class="mb-30 weight-600">Message</h4>
         <div class="row pb-30">
             <div class="col-md-6">
                 <h5 class=" mb-5">
@@ -47,8 +47,8 @@
         </div>
         <div class="invoice-desc pb-30">
             <div class="invoice-desc-head clearfix">
-                <div class="invoice-sub">Objet :  <?php echo $object ?></div>
-                
+                <div class="invoice-sub">Objet : <?php echo $object ?></div>
+
             </div>
             <div class="invoice-desc-body">
                 <ul>
@@ -58,6 +58,11 @@
                 </ul>
             </div>
         </div>
+        <div class="row pb-30">
+        <div class="col-7">
+            <a class="text-decoration-none" href="<?php echo base_url('common/dashboard/message') ?>"><i class="icon-copy dw dw-left-arrow-3"></i> Retour</a>
+        </div>
+    </div>
     </div>
 </div>
 

@@ -26,7 +26,7 @@
                                                 <h5><?= $item['name'] ?></h5>
                                             </td>
                                             <td class="shoping__cart__price">
-                                                <?= $item['price'] ?> XAF
+                                                FCFA <?= $item['price'] ?> 
                                             </td>
                                             <td class="shoping__cart__quantity">
                                                 <div class="quantity">
@@ -39,7 +39,7 @@
                                                 </div>
                                             </td>
                                             <td class="shoping__cart__total">
-                                                <?= $item['price'] * $item['quantity'] ?> XAF
+                                               FCFA <?= $item['price'] * $item['quantity'] ?>
                                             </td>
                                             <td class="shoping__cart__item__close">
                                                 <a href="<?php echo site_url('common/shoppingcart/remove/' . $item['id']) ?>"><span class="icon_close"></span></a>
@@ -65,7 +65,7 @@
                 <div class="shoping__checkout">
                     <h5>Total</h5>
                     <ul>
-                        <li>Total à payer <span><?= $total ?> XAF</span></li>
+                        <li>Total à payer <span><?= number_to_currency( $total, 'XAF') ?> </span></li>
                     </ul>
                     <a href="<?php echo base_url('common/shoppingcart/payment') ?>" class="primary-btn">PROCÉDER AU PAIEMENT</a>
                 </div>

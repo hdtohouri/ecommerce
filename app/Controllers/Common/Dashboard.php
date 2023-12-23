@@ -41,6 +41,20 @@ class Dashboard extends BaseController
 
            $data['commandes'] = $model->countAllResults();
            $data['customers'] = $Customer->countAllResults();
+
+           $action = $this->request->getPost('action');
+
+            if($action === 'delete')
+            {
+                $id_order = $this->request->getPost('order_id');
+                $delete = $model->delete($id_order);
+                if (!empty($delete)) {
+                    session()->setFlashdata('success_message', "Commande supprimée avec succès");
+                    return redirect()->to(base_url('common/dashboard'));
+                }else{
+                    session()->setFlashdata('error_message', "ERREUR, Merci de reessayer");
+                }
+            }
             
             return view('dashboard', $data);    
         }
@@ -663,6 +677,20 @@ class Dashboard extends BaseController
                 'message' => $message_list->orderBy('id_contact_us', 'desc')->paginate(10, 'message'),
                 'pager' => $message_list->pager,
             ];
+
+            $action = $this->request->getPost('action');
+
+            if($action === 'delete')
+            {
+                $id_message = $this->request->getPost('message_id');
+                $delete = $message_list->delete($id_message);
+                if (!empty($delete)) {
+                    session()->setFlashdata('success_message', "Message supprimé avec succès");
+                    return redirect()->to(base_url('common/dashboard/message'));
+                }else{
+                    session()->setFlashdata('error_message', "ERREUR, Merci de reessayer");
+                }
+            }
             
             return view('backend/layout/messages',$data);      
         }   
@@ -678,6 +706,7 @@ class Dashboard extends BaseController
             
             $message_manager = new Contactus();
             $message = $message_manager->where('id_contact_us', $id)->first();
+            $message_read = $message_manager->read_message($id);
             return view('backend/layout/read_messages',$message);      
         }   
        
@@ -740,10 +769,7 @@ class Dashboard extends BaseController
             }
             
                 return view('backend/layout/list_customers',$data);
-        }
-            
-            //return view('backend/layout/list_customers',$data);          
-                    
+        }                         
     }
 
     public function list_product()
@@ -879,11 +905,8 @@ class Dashboard extends BaseController
                    session()->setFlashdata('error_message', "ERREUR, Merci de reessayer");
                }
            }
-            
-            return view('backend/layout/list_product',$data); 
-              
-        }    
-                    
+            return view('backend/layout/list_product',$data);     
+        }                     
     }
 
     public function manage_orders()
@@ -980,11 +1003,11 @@ class Dashboard extends BaseController
                 switch ($method) {
                     case 'post':
                         $data['validation'] = $this->validator;
-                        echo view('backend/layout/modals/add_profil_pic', $data);
+                        echo view('backend/layout/profil', $data);
                         break;
                     case 'get':
                         $message = $this->session->getFlashdata('special_message');
-                        echo view('backend/layout/modals/add_profil_pic', $data, array('special_message' => $message));
+                        echo view('backend/layout/profil', array('special_message' => $message));
                         break;
                     default:
                         die('something is wrong here');

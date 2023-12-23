@@ -14,8 +14,10 @@
                 <div class="mb-4 form-group">
                     Souhaitez vous activer ce compte ?
                     <h6>Cliquer Sur activer ou sur fermer pour annuler</h6>
-                    <input type="hidden" name="user_id"  value="<?= $admin['user_id'] ?>">
-                    <input type="hidden" name="action" value="activate">
+                    <?php if (isset($admin['user_id'])) : ?>
+                        <input type="hidden" name="user_id"  value="<?= $admin['user_id'] ?>">
+                        <input type="hidden" name="action" value="activate">
+                    <?php endif; ?>    
                 </div>
             </div>
             <div class="modal-footer">

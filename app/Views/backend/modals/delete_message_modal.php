@@ -1,6 +1,6 @@
-<div class="modal fade" id="delete-admin-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+<div class="modal fade" id="delete-message-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-dialog-centered" data-backdrop="static">
-        <form class="modal-content" action="<?php echo base_url('common/dashboard/list_admin') ?>" method="post" id="add_category_form">
+        <form class="modal-content" action="<?php echo base_url('common/dashboard/message') ?>" method="post" id="add_category_form">
             <div class="modal-header">
                 <h4 class="modal-title" id="myLargeModalLabel">
                     Large modal
@@ -12,12 +12,12 @@
             <div class="modal-body">
                 <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" class="ci_csrf_data">
                 <div class="mb-4 form-group">
-                    Souhaitez vous supprimer ce compte ?
-                    <h6>Cliquer Sur supprimer ou sur fermer pour annuler</h6>
-                    <?php if (isset($admin['user_id'])) : ?>
-                        <input type="hidden" name="user_id"  value="<?= $admin['user_id'] ?>">
+                    Souhaitez vous supprimer ce message ?
+                    <h6>Cliquer Sur supprimer ou sur annuler</h6>
+                    <?php if (isset($message['id_contact_us'])) : ?>
+                        <input type="hidden" name="message_id"  value="<?=  $message['id_contact_us'] ?>">
                         <input type="hidden" name="action" value="delete">
-                    <?php endif; ?> 
+                    <?php endif; ?>                    
                 </div>
             </div>
             <div class="modal-footer">

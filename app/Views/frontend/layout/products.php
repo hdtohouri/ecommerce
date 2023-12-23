@@ -9,10 +9,11 @@
                     <div class="sidebar__item">
                         <h4>Categories</h4>
                         <ul>
-                            <?php
-                            foreach ($list_category as $category) : ?>
-                                <li class="text-capitalize"><a href="#"><?= $category['nom_categories'] ?></a></li>
-                            <?php endforeach; ?>
+                            <?php if (isset($list_category)) : ?>
+                                <?php foreach ($list_category as $category) : ?>
+                                    <li class="text-capitalize"><a href="#"><?= $category['nom_categories'] ?></a></li>
+                                <?php endforeach; ?>
+                            <?php endif; ?> 
                         </ul>
                     </div>
                     <div class="sidebar__item">
@@ -133,8 +134,9 @@
                     </div>
                 </div>
                 <div class="filter__item"></div>
-                <?php endif ?>
+            <?php endif ?>
                 <div class="row">
+            <?php if (isset($orders)): ?>
                     <?php $i = 0;
                     foreach ($orders as $product) : ?>
                     <div class="col-lg-4 col-md-6 col-sm-6">
@@ -154,6 +156,7 @@
                     <?php endforeach; ?>
                 </div>
                 <?= $pager->links('orders','dashboard_pager') ?>
+            <?php endif ?>
             </div>
         </div>
     </div>

@@ -14,8 +14,10 @@
                 <div class="mb-4 form-group">
                     Souhaitez vous supprimer cette catégorie ?
                     <h6>Cliquer Sur supprimer ou sur fermer pour annuler</h6>
-                    <input type="hidden" name="id_categories"  value="<?= $category['id_categories'] ?>">
-                    <input type="hidden" name="action" value="delete">
+                    <?php if (isset($category['id_categories'])) : ?>
+                        <input type="hidden" name="id_categories"  value="<?= $category['id_categories'] ?>">
+                        <input type="hidden" name="action" value="delete">
+                    <?php endif; ?> 
                 </div>
             </div>
             <div class="modal-footer">
