@@ -10,8 +10,12 @@ use App\Models\Products;
 
 class LandingPage extends BaseController
 {
-    protected $helpers = ['form'];
 
+    public function __construct()
+    {
+        helper('number');
+        helper('form');
+    }
     public function index()
     {
         $category_infos = new Category();
@@ -135,7 +139,7 @@ class LandingPage extends BaseController
     public function get_details($id)
     {
         $product_manager = new Products();
-        //$product = $product_manager->find($id);
+        
         $product = $product_manager->where('product_name', $id)->first();
         $item = array(
             'id' => $product['id_product'],
@@ -146,8 +150,13 @@ class LandingPage extends BaseController
             'stock_quantity' => $product['product_quantity'],
             'quantity' => 1,
         );
+        $similaire = $product_manager->asObject()->where('id_category',$product['id_category'])->findAll();
+        $data = [
+            'item'=> $item,
+            'similaire'=> $similaire
+        ];
         //return $this->response->redirect(site_url('common/landingpage/product_details'));
-        return view('frontend/layout/product_details',['item'=> $item]);
+        return view('frontend/layout/product_details',$data);
     }
 
 

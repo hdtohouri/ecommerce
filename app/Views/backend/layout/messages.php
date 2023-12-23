@@ -42,8 +42,8 @@
                     <tbody>
                         <?php $i=0; foreach($message as $message): ?>
                         <tr>
-                            <td><a href=""> <?= $message['name']?></a></td>
-                            <td><a href=""><?= $message['object'] ?></a></td>
+                            <td><a href="<?php echo base_url("common/dashboard/read_message/".$message['id_contact_us']) ?>"> <?= $message['name']?></a></td>
+                            <td><a href="<?php echo base_url("common/dashboard/read_message/".$message['id_contact_us']) ?>"><?= $message['object'] ?></a></td>
                         </tr>
                         <?php endforeach; ?>
                     </tbody>

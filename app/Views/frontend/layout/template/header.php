@@ -12,7 +12,7 @@
                  <li><a href="<?php echo base_url("common/favoris") ?>"><i class="icon-copy dw dw-like1"></i> <span>0</span></a></li>
              <?php endif; ?>
              <?php if (session()->has('cart')) : ?>
-                 <li><a href="<?php echo base_url("common/shoppingcart") ?>"><i class="icon-copy dw dw-shopping-cart-1"></i> <span> <?php echo count(session('cart')) ?></span></a></li>
+                 <li><a href="<?php echo base_url("common/shoppingcart") ?>"><i class="icon-copy dw dw-shopping-cart-1"></i> <span> <?php echo session('totalquantity') ?></span></a></li>
              <?php else : ?>
                  <li><a href="<?php echo base_url("common/shoppingcart") ?>"><i class="icon-copy dw dw-shopping-cart-1"></i> <span>0</span></a></li>
              <?php endif; ?>
@@ -135,7 +135,7 @@
                              <li><a href="<?php echo base_url("common/favoris") ?>"><i class="icon-copy dw dw-like1"></i> <span>0</span></a></li>
                          <?php endif; ?>
                          <?php if (session()->has('cart')) : ?>
-                             <li><a href="<?php echo base_url("common/shoppingcart") ?>"><i class="icon-copy dw dw-shopping-cart-1"></i> <span> <?php echo count(session('cart')) ?></span></a></li>
+                             <li><a href="<?php echo base_url("common/shoppingcart") ?>"><i class="icon-copy dw dw-shopping-cart-1"></i> <span> <?php echo session('totalquantity') ?></span></a></li>
                          <?php else : ?>
                              <li><a href="<?php echo base_url("common/shoppingcart") ?>"><i class="icon-copy dw dw-shopping-cart-1"></i> <span>0</span></a></li>
                          <?php endif; ?>

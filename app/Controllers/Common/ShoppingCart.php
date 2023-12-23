@@ -10,6 +10,10 @@ use App\Models\Products;
 
 class ShoppingCart extends BaseController
 {
+    public function __construct()
+    {
+        helper('number');
+    }
 
     public function index()
     {
@@ -29,6 +33,7 @@ class ShoppingCart extends BaseController
             'price' => $product['product_price'],
             'image' => $product['product_image'],
             'quantity' => 1,
+            'options' => array('Size' => 'L', 'Color' => 'Red'),
         );
 
         if (session()->has('cart')) {
@@ -41,13 +46,15 @@ class ShoppingCart extends BaseController
             }
             session()->set('cart', $cart);
             session()->set('total', $this->total() );
+            session()->set('totalquantity', $this->totalItems() );
         } else {
             $cart = array($item);
             session()->set('cart', $cart);
             session()->set('total', $this->total() );
+            session()->set('totalquantity', $this->totalItems() );
         }
-
-        return $this->response->redirect(site_url('common/shoppingcart'));
+        session()->setFlashdata('success_message', 'Article ajoutée avec succès.');
+        return redirect()->to(base_url('common/landingpage/get_details/'.$product['product_name']));
     }
 
     private function exists($id)
@@ -71,12 +78,24 @@ class ShoppingCart extends BaseController
         return $s;
     }
 
+    private function totalItems()
+    {
+        $s = 0;
+        $items = array_values(session('cart'));
+        foreach ($items as $item) {
+            $s +=  $item['quantity'];
+        }
+        return $s;
+    }
+
     public function remove($id)
     {
         $index = $this->exists($id);
         $cart = array_values(session('cart'));
         unset($cart[$index]);
         session()->set('cart', $cart);
+        session()->set('total', $this->total() );
+        session()->set('totalquantity', $this->totalItems() );
         return $this->response->redirect(site_url('common/shoppingcart'));
     }
 
@@ -88,6 +107,8 @@ class ShoppingCart extends BaseController
             $cart[$i]['quantity'] = $_POST['quantity'][$i];
         }
         session()->set('cart', $cart);
+        session()->set('total', $this->total());
+        session()->set('totalquantity', $this->totalItems() );
         return $this->response->redirect(site_url('common/shoppingcart'));
     }
 

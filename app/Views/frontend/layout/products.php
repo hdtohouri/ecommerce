@@ -31,7 +31,7 @@
                                                     </div>
                                                     <div class="latest-product__item__text">
                                                         <h6>Montre Homme</h6>
-                                                        <span>35.000 XAF</span>
+                                                        <span><?= number_to_currency( 35000 , 'XAF') ?></span>
                                                     </div>
                                                 </a>
                                                 <a href="#" class="latest-product__item">
@@ -40,7 +40,7 @@
                                                     </div>
                                                     <div class="latest-product__item__text">
                                                         <h6>Sac à main</h6>
-                                                        <span>12.500 XAF</span>
+                                                        <span><?= number_to_currency( 12500 , 'XAF') ?></span>
                                                     </div>
                                                 </a>
                                                 <a href="#" class="latest-product__item">
@@ -49,7 +49,7 @@
                                                     </div>
                                                     <div class="latest-product__item__text">
                                                         <h6>Sac à main</h6>
-                                                        <span>12.500 XAF</span>
+                                                        <span><?= number_to_currency( 12500 , 'XAF') ?></span>
                                                     </div>
                                                 </a>
                                             </div>
@@ -62,7 +62,7 @@
                                                     </div>
                                                     <div class="latest-product__item__text">
                                                         <h6>Sac à main</h6>
-                                                        <span>12.500 XAF</span>
+                                                        <span><?= number_to_currency( 12500 , 'XAF') ?></span>
                                                     </div>
                                                 </a>
                                                 <a href="#" class="latest-product__item">
@@ -71,7 +71,7 @@
                                                     </div>
                                                     <div class="latest-product__item__text">
                                                         <h6>Montre Homme</h6>
-                                                        <span>35.000 XAF</span>
+                                                        <span><?= number_to_currency( 35000 , 'XAF') ?></span>
                                                     </div>
                                                 </a>
                                                 <a href="#" class="latest-product__item">
@@ -80,7 +80,7 @@
                                                     </div>
                                                     <div class="latest-product__item__text">
                                                         <h6>Sac à dos</h6>
-                                                        <span>10.000 XAF</span>
+                                                        <span><?= number_to_currency( 10000 , 'XAF') ?></span>
                                                     </div>
                                                 </a>
                                             </div>
@@ -103,11 +103,6 @@
                     <div class="row">
                         <div class="product__discount__slider owl-carousel owl-loaded owl-drag">
 
-
-
-
-
-
                             <div class="owl-stage-outer">
                                 <div class="owl-stage" style="transform: translate3d(-3315px, 0px, 0px); transition: all 1.2s ease 0s; width: 4973px;">
                                     <div class="owl-item cloned" style="width: 414.4px;">
@@ -124,7 +119,7 @@
                                                 </div>
                                                 <div class="product__discount__item__text">
                                                     <h5><a href="#"><?= $product['product_name'] ?></a></h5>
-                                                    <div class="product__item__price"><?= $product['product_price'] ?> XOF<span><?= $product['product_price'] ?> XOF</span></div>
+                                                    <div class="product__item__price"><?= number_to_currency( $product['product_price'], 'XAF') ?> <span><?= number_to_currency( $product['product_price'], 'XAF') ?> </span></div>
                                                 </div>
                                             </div>
                                         <?php endforeach; ?>
@@ -152,7 +147,7 @@
                             </div>
                             <div class="product__item__text">
                                 <h6><a href="<?php echo base_url('common/landingpage/get_details/'.$product['product_name']) ?>"><?= $product['product_name'] ?></a></h6>
-                                <h5><?= $product['product_price'] ?> XOF</h5>
+                                <h5><?= number_to_currency( $product['product_price'], 'XAF')   ?> </h5>
                             </div>
                         </div>
                     </div>
@@ -164,5 +159,15 @@
     </div>
 </section>
 <!-- contact us Section End -->
-
+<script>
+    <?php if (session()->has('success_message')) : ?>
+        Toastify({
+            text: "<?= session('success_message') ?>",
+            duration: 4000,
+            position: "right",
+            gravity: "top",
+            close: true
+        }).showToast();
+    <?php endif; ?>
+</script>
 <?= $this->endSection() ?>

@@ -669,6 +669,20 @@ class Dashboard extends BaseController
        
     }
 
+    public function read_message($id)
+    {
+        if (!session('logged_in') ) {
+            $message = "<div class='alert alert-danger text-center' role='alert'>Veuillez vous identifier !</div>";
+            echo view('backend/layout/login', array('special_message' => $message)); 
+        }else{
+            
+            $message_manager = new Contactus();
+            $message = $message_manager->where('id_contact_us', $id)->first();
+            return view('backend/layout/read_messages',$message);      
+        }   
+       
+    }
+
     public function list_customers()
     {
         if (!session('logged_in') ) {

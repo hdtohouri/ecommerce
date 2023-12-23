@@ -47,8 +47,9 @@ class Favoris extends BaseController
             $favoris = array($item);
             session()->set('favoris', $favoris);
         }
+        session()->setFlashdata('success_message', 'Favoris ajoutée avec succès.');
 
-        return $this->response->redirect(site_url('common/favoris'));
+        return $this->response->redirect(site_url('common/landingpage/products'));
     }
 
     private function exists($id)
