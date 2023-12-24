@@ -74,7 +74,7 @@ class LandingPage extends BaseController
                     echo view('frontend/layout/contactus', array('validation' => $this->validator));
                     break;
                 case 'get':
-                    $message = $this->session->getFlashdata('special_message');
+                    $message = session()->getFlashdata('special_message');
                     echo view('frontend/layout/contactus', array('special_message' => $message));
                     break;
                 default:

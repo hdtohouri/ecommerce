@@ -104,7 +104,7 @@
                         foreach ($orders as $orders) : ?>
                             <tr>
                                 <td> <?= $orders['order_number'] ?></td>
-                                <td><?= $orders['order_total'] ?> XAF </td>
+                                <td><?=number_to_currency( $orders['order_total'], 'XAF') ?> </td>
                                 <td><?= date('d-m-Y H:i', strtotime($orders['order_date']))   ?> </td>
                                 <?php if ($orders['order_statut'] == 'En Attente') : ?>
                                     <td><span class="badge badge-warning"><?= $orders['order_statut'] ?></span></td>

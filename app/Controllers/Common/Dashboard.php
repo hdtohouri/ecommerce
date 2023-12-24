@@ -9,15 +9,18 @@ use App\Models\Contactus;
 use App\Models\Orders;
 use App\Models\Customer;
 use App\Models\Products;
+use App\Models\ShoppingCart;
 
 //use function PHPUnit\Framework\isNull;
 
 class Dashboard extends BaseController
 {
-    protected $helpers = ['form'];
 
     public function __construct()
     {
+        helper('number');
+        helper('form');
+
         $manage_notification = new Contactus();
         $data['message'] = $manage_notification->where('read_message','NO')->countAllResults();
         return view('backend/layout/template/left-sidebar.php',$data);
@@ -109,7 +112,7 @@ class Dashboard extends BaseController
                         echo view('backend/layout/profil', array('validation' => $this->validator));
                         break;
                     case 'get':
-                        $message = $this->session->getFlashdata('special_message');
+                        $message = session()->getFlashdata('special_message');
                         echo view('backend/layout/profil', array('special_message' => $message));
                         break;
                     default:
@@ -139,18 +142,18 @@ class Dashboard extends BaseController
             }
 
             if(empty($data)) {
-                $this->session->setFlashdata('error_message', 'Merci de saisir les informations');
+                session()->setFlashdata('error_message', 'Merci de saisir les informations');
                 return redirect()->to(base_url('common/dashboard/profil'));
             }
             $updated = $userinfos->update_data(session('user_id'), $data);
             
             if ($updated) {
-                $this->session->set($data);
-                $this->session->setFlashdata('success_message', 'Mise à Jour éffectuée avec succès.');
+                session()->set($data);
+                session()->setFlashdata('success_message', 'Mise à Jour éffectuée avec succès.');
                 return redirect()->to(base_url('common/dashboard/profil'));
                 
             } else {
-                $this->session->setFlashdata('error_message', 'Une erreur est survenue. Merci de reésayer');
+                session()->setFlashdata('error_message', 'Une erreur est survenue. Merci de reésayer');
                 return redirect()->to(base_url('common/dashboard/profil'));
             }
         }
@@ -197,7 +200,7 @@ class Dashboard extends BaseController
                         echo view('backend/layout/profil', array('validation' => $this->validator));
                         break;
                     case 'get':
-                        $message = $this->session->getFlashdata('special_message');
+                        $message = session()->getFlashdata('special_message');
                         echo view('backend/layout/profil', array('special_message' => $message));
                         break;
                     default:
@@ -226,15 +229,15 @@ class Dashboard extends BaseController
 
                 if($verify_actual_password)
                 {
-                    $this->session->setFlashdata('success_message', 'Mot de passe modifié avec succès.');
+                    session()->setFlashdata('success_message', 'Mot de passe modifié avec succès.');
                     return redirect()->to(base_url('common/dashboard/profil'));
                 }
                 else{
-                    $this->session->setFlashdata('error_message', 'Échec de la modification du mot de passe.');
+                    session()->setFlashdata('error_message', 'Échec de la modification du mot de passe.');
                     return redirect()->to(base_url('common/dashboard/profil'));
                 } 
             }else{
-                $this->session->setFlashdata('error_message', 'Le mot de passe actuel saisit ne correspond pas.');
+                session()->setFlashdata('error_message', 'Le mot de passe actuel saisit ne correspond pas.');
                 return redirect()->to(base_url('common/dashboard/profil'));
             } 
         }
@@ -285,7 +288,7 @@ class Dashboard extends BaseController
                             echo view('backend/layout/add_admin_view', array('validation' => $this->validator));
                             break;
                         case 'get':
-                            $message = $this->session->getFlashdata('special_message');
+                            $message = session()->getFlashdata('special_message');
                             echo view('backend/layout/add_admin_view', array('special_message' => $message));
                             break;
                         default:
@@ -311,7 +314,7 @@ class Dashboard extends BaseController
 
             if($user_details)
             {
-                $this->session->setFlashdata('success_message', "L'ajout de l'utilisateur a bien été pris en compte");
+                session()->setFlashdata('success_message', "L'ajout de l'utilisateur a bien été pris en compte");
                 echo view('backend/layout/add_admin_view');
 
                 $email = \Config\Services::email();
@@ -343,7 +346,7 @@ class Dashboard extends BaseController
                 }
             }
             else {
-                $this->session->setFlashdata('error_message', "L'ajout de l'utilisateur n'a pas été éffecuté. Merci de reésayer.");
+                session()->setFlashdata('error_message', "L'ajout de l'utilisateur n'a pas été éffecuté. Merci de reésayer.");
                 echo view('backend/layout/add_admin_view');
             }
         }
@@ -367,10 +370,10 @@ class Dashboard extends BaseController
                 $user_id = $this->request->getPost('user_id');
                 $desactivate = $admin_list->desactivate_user($user_id);
                 if (!empty($desactivate)) {
-                    $this->session->setFlashdata('success_message', "Le compte à été désactivé avec succès");
+                    session()->setFlashdata('success_message', "Le compte à été désactivé avec succès");
                     return redirect()->to(base_url('common/dashboard/list_admin'));
                 }else{
-                    $this->session->setFlashdata('error_message', "ERREUR, Merci de reessayer");
+                    session()->setFlashdata('error_message', "ERREUR, Merci de reessayer");
                 }
             }
             elseif($action === 'activate')
@@ -379,10 +382,10 @@ class Dashboard extends BaseController
                 $activate = $admin_list->activate_user($user_id);
                 if (!empty($activate)) {
 
-                    $this->session->setFlashdata('success_message', "Le compte à été activé avec succès");
+                    session()->setFlashdata('success_message', "Le compte à été activé avec succès");
                     return redirect()->to(base_url('common/dashboard/list_admin'));
                 }else{
-                    $this->session->setFlashdata('error_message', "ERREUR, Merci de reessayer");
+                    session()->setFlashdata('error_message', "ERREUR, Merci de reessayer");
                 }
             }
 
@@ -392,11 +395,11 @@ class Dashboard extends BaseController
                 $delete = $admin_list->delete_user($user_id);
                 if (!empty($delete)) {
                     
-                    $this->session->setFlashdata('success_message', "Le compte à été supprimé avec succès");
+                    session()->setFlashdata('success_message', "Le compte à été supprimé avec succès");
                     return redirect()->to(base_url('common/dashboard/list_admin'));
                 }
                 else{
-                    $this->session->setFlashdata('error_message', "ERREUR, Merci de reessayer");
+                    session()->setFlashdata('error_message', "ERREUR, Merci de reessayer");
                 }
             }
             
@@ -434,7 +437,7 @@ class Dashboard extends BaseController
                         echo view('backend/layout/categories', $data);
                         break;
                     case 'get':
-                        $message = $this->session->getFlashdata('special_message');
+                        $message = session()->getFlashdata('special_message');
                         echo view('backend/layout/categories',$data, array('special_message' => $message));
                         break;
                     default:
@@ -452,17 +455,17 @@ class Dashboard extends BaseController
             }
 
             if(empty($categorie_name)) {
-                $this->session->setFlashdata('error_message', 'Merci de saisir le nom de la categorie');
+                session()->setFlashdata('error_message', 'Merci de saisir le nom de la categorie');
                 return redirect()->to(base_url('common/dashboard/add_categories'));
             }
             $add_categorie = $category_infos->insert_in_db( $data);
             
             if ($add_categorie) {
-                $this->session->setFlashdata('success_message', 'Categorie ajoutée avec succès.');
+                session()->setFlashdata('success_message', 'Categorie ajoutée avec succès.');
                 return redirect()->to(base_url('common/dashboard/add_categories'));
                 
             } else {
-                $this->session->setFlashdata('error_message', 'Une erreur est survenue. Merci de reésayer');
+                session()->setFlashdata('error_message', 'Une erreur est survenue. Merci de reésayer');
                 return redirect()->to(base_url('common/dashboard/add_categories'));
             }
 
@@ -484,13 +487,13 @@ class Dashboard extends BaseController
                     $edit = $category_infos->edit_category($id_categories, $categorie_name);
                     if (!empty($edit)) {
 
-                        $this->session->setFlashdata('success_message', "Le nom de la catégorie à été édité avec succès");
+                        session()->setFlashdata('success_message', "Le nom de la catégorie à été édité avec succès");
                         return redirect()->to(base_url('common/dashboard/add_categories'));
                     } else {
-                        $this->session->setFlashdata('error_message', "ERREUR, Merci de reessayer");
+                        session()->setFlashdata('error_message', "ERREUR, Merci de reessayer");
                     }
                 }else{
-                    $this->session->setFlashdata('error_message', "Veuillez saisir le nom de la catégorie.");
+                    session()->setFlashdata('error_message', "Veuillez saisir le nom de la catégorie.");
                     return redirect()->to(base_url('common/dashboard/add_categories'));
                 }
             }
@@ -500,10 +503,10 @@ class Dashboard extends BaseController
                 $delete = $category_infos->delete_category($id_categories);
                 if (!empty($delete)) {
 
-                    $this->session->setFlashdata('success_message', "La catégorie à été supprimé avec succès");
+                    session()->setFlashdata('success_message', "La catégorie à été supprimé avec succès");
                     return redirect()->to(base_url('common/dashboard/add_categories'));
                 }else{
-                    $this->session->setFlashdata('error_message', "ERREUR, Merci de reessayer");
+                    session()->setFlashdata('error_message', "ERREUR, Merci de reessayer");
                 }
             }
     }
@@ -597,7 +600,7 @@ class Dashboard extends BaseController
                             echo view('backend/layout/add_product', $data);
                             break;
                         case 'get':
-                            $message = $this->session->getFlashdata('special_message');
+                            $message = session()->getFlashdata('special_message');
                             echo view('backend/layout/add_product',$data, array('special_message' => $message));
                             break;
                         default:
@@ -641,12 +644,12 @@ class Dashboard extends BaseController
 
                 if($insert_product)
                 {
-                    $this->session->setFlashdata('success_message', "L'ajout de l'article a bien été pris en compte");
+                    session()->setFlashdata('success_message', "L'ajout de l'article a bien été pris en compte");
                     return redirect()->to(base_url('common/dashboard/add_product'));
                     
                 }
                 else {
-                    $this->session->setFlashdata('error_message', "L'ajout de l'article n'a pas été éffecuté. Merci de reésayer.");
+                    session()->setFlashdata('error_message', "L'ajout de l'article n'a pas été éffecuté. Merci de reésayer.");
                     return redirect()->to(base_url('common/dashboard/add_product'));
                 }
             }
@@ -835,7 +838,7 @@ class Dashboard extends BaseController
                         echo view('backend/layout/list_product',$data, array('validation' => $this->validator));
                         break;
                     case 'get':
-                        $message = $this->session->getFlashdata('special_message');
+                        $message = session()->getFlashdata('special_message');
                         echo view('backend/layout/list_product',$data, array('special_message' => $message));
                         break;
                     default:
@@ -947,22 +950,28 @@ class Dashboard extends BaseController
             }
 
             $orders_manager = new Orders();
+            $products_manager = new ShoppingCart();
+            $product = new Products();
 
             $order_number = $this->request->getPost('order_number');
 
-            //$order = $orders_manager->find($order_number);
-            $order = $orders_manager->select('orders.*, order_infos.*,cart.*,products.*')
+            $order = $orders_manager->select('orders.*, order_infos.*,cart.product_id,products.product_image')
                     ->join('order_infos', 'order_infos.order_infos_id = orders.user_id')
-                    ->join('cart', 'cart.order_number = orders.order_number')
+                    ->join('cart', 'cart.order_number  = orders.order_number')
                     ->join('products', 'products.id_product = cart.product_id')
                     ->where('orders.order_number', $order_number)
                     ->first();
 
-            if( $order)
+            $order_article = $products_manager->where('order_number',$order_number)->findAll();
+            
+            if( $order && $order_article)
             {
-                //dd($order);
-                return view('backend/layout/search_order_result',$order);
-                //return $this->response->redirect(site_url('common/dashboard/orders_action'));
+                $data = [
+                    'order' => $order,
+                    'order_article' => $order_article,
+                ];
+                
+                return view('backend/layout/search_order_result',$data);
             }
             else{
                 session()-> setFlashdata('special_message','Aucune commande trouvée');
@@ -972,14 +981,6 @@ class Dashboard extends BaseController
             return view('backend/layout/manage_orders');
         }
     }  
-
-    public function orders_action()
-    {
-        $orders_manager = new Orders();
-
-        //$find = $orders_manager->find($order);
-        return view('backend/layout/search_order_result');
-    }
 
     public function add_profil_pic()
     {
@@ -1006,7 +1007,7 @@ class Dashboard extends BaseController
                         echo view('backend/layout/profil', $data);
                         break;
                     case 'get':
-                        $message = $this->session->getFlashdata('special_message');
+                        $message = session()->getFlashdata('special_message');
                         echo view('backend/layout/profil', array('special_message' => $message));
                         break;
                     default:

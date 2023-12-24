@@ -6,13 +6,13 @@ use CodeIgniter\Model;
 
 class ShoppingCart extends Model
 {
-    protected $table            = 'shoppingcarts';
-    protected $primaryKey       = 'id';
+    protected $table            = 'cart';
+    protected $primaryKey       = 'cart_id ';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = ['cart_id,product_quantity'];
 
     // Dates
     protected $useTimestamps = false;
