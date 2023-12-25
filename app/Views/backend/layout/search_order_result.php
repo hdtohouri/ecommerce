@@ -87,7 +87,7 @@
         </div>
         <div class="row">
             <div class="col-sm-4">
-                <form action="<?php echo base_url("common/twofactor/desactivate") ?>" method="post">
+                <form action="<?php echo base_url("common/dashboard/order_response") ?>" method="post">
                     <?= csrf_field(); ?>
                     <div class="form-group">
                         <?php
@@ -97,13 +97,14 @@
                     </div>
 
                     <div class="form-group text-center">
-                        <input type="hidden" name="UserCode" value="<?php echo session('user_id') ?>" />
+                        <input type="hidden" name="action" value="valider">
+                        <input type="hidden" name="order_number"  value="<?= $order['order_number'] ?>">
                         <button type="submit" class="btn btn-primary">Valider la commande</button>
                     </div>
                 </form>
             </div>
             <div class="col-sm-4">
-                <form action="<?php echo base_url("common/twofactor/desactivate") ?>" method="post">
+                <form action="<?php echo base_url("common/dashboard/order_response") ?>" method="post">
                     <?= csrf_field(); ?>
                     <div class="form-group">
                         <?php
@@ -113,7 +114,8 @@
                     </div>
 
                     <div class="form-group text-center">
-                        <input type="hidden" name="UserCode" value="<?php echo session('user_id') ?>" />
+                        <input type="hidden" name="action" value="annuler">
+                        <input type="hidden" name="order_number"  value="<?= $order['order_number'] ?>">
                         <button type="submit" class="btn btn-danger">Annuler la commande</button>
                     </div>
                 </form>

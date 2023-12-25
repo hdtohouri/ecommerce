@@ -26,6 +26,12 @@
             </div>
             
         </div>
+        <br>
+        <div class="row pb-30">
+            <div class="col-7">
+                <a class="text-decoration-none" href="<?php echo base_url('common/login') ?>"><i class="icon-copy dw dw-left-arrow-3"></i> Retour</a>
+            </div>
+        </div>
     </form>
 </div>
 <?= $this->endSection() ?>

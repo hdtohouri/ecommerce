@@ -67,4 +67,34 @@ class Orders extends Model
             return false;
         }
     }
+
+    public function validate_order($order_number)
+    {
+        $builder = $this->db->table('orders');
+        $builder->where('order_number', $order_number);
+        //$builder->where('order_statut', 'En Attente');
+        $builder->update(['order_statut' => 'Commande Validée']);
+        if($this->db->affectedRows()==1)
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public function refuse_order($order_number)
+    {
+        $builder = $this->db->table('orders');
+        $builder->where('order_number', $order_number);
+        //$builder->where('order_statut', 'En Attente');
+        $builder->update(['order_statut' => 'Commande Annulée']);
+        if($this->db->affectedRows()==1)
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 }

@@ -28,7 +28,7 @@ class Customer extends Model
     public function get_customer_permissions($user_name, $password)
     {
         $builder = $this->db->table('customers');
-        $builder->select('customers_id,customers_username,customers_password,customers_location,customers_account_status');
+        $builder->select('customers_id,customers_username,customers_password,customers_location,customers_account_status,customers_number');
         $builder->where('customers_username', $user_name);
         $result = $builder->get();
         $customers_details = $result->getRowArray();
@@ -108,6 +108,20 @@ class Customer extends Model
             return true;
         }
         else{
+            return false;
+        }
+    }
+
+    public function verifyEmail($email)
+    {
+        $builder = $this->db->table('customers');
+        $builder->select('customers_id ,customers_username,customers_account_status');
+        $builder->where('customers_email', $email);
+        $result = $builder->get();
+        $row = $result->getRowArray();
+        if (count($result->getResultArray()) == 1) {
+            return ['row' => $row];
+        } else {
             return false;
         }
     }

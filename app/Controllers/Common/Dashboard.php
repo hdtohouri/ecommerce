@@ -980,7 +980,27 @@ class Dashboard extends BaseController
             
             return view('backend/layout/manage_orders');
         }
-    }  
+    }
+    
+    public function order_response()
+    {
+        $orders_manager = new Orders();
+        $action = $this->request->getPost('action');
+        $order_number = $this->request->getPost('order_number');
+        
+        if($action === 'valider'){
+            $validate = $orders_manager->validate_order($order_number);
+            session()->setFlashdata('success_message', "La commande a été validée avec succès");
+            return redirect()->to(base_url('common/dashboard'));
+        }
+        elseif($action === 'annuler'){
+            $validate = $orders_manager->refuse_order($order_number);
+            session()->setFlashdata('success_message', "La commande a été annulée avec succès");
+            return redirect()->to(base_url('common/dashboard'));
+        }
+
+        
+    }
 
     public function add_profil_pic()
     {

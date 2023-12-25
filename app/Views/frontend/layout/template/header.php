@@ -26,8 +26,8 @@
                          <i class="fa fa-user-circle" aria-hidden="true"></i> <?php echo strtoupper(session('customers_username')); ?>
                      </button>
                      <ul class="dropdown-menu">
-                         <li><a class="dropdown-item" href="<?php echo base_url(''); ?>">Mon Compte</a></li>
-                         <li><a class="dropdown-item" href="<?php echo base_url(''); ?>">Mes Commandes</a></li>
+                         <li><a class="dropdown-item" href="<?php echo base_url('common/users/home'); ?>">Mon Compte</a></li>
+                         <li><a class="dropdown-item" href="<?php echo base_url('common/users/home/orders'); ?>">Mes Commandes</a></li>
                          <li>
                              <hr class="dropdown-divider">
                          </li>
@@ -85,8 +85,8 @@
                                          <i class="fa fa-user-circle" aria-hidden="true"></i> <?php echo strtoupper(session('customers_username')); ?>
                                      </button>
                                      <ul class="dropdown-menu">
-                                         <li><a class="dropdown-item" href="<?php echo base_url(''); ?>">Mon Compte</a></li>
-                                         <li><a class="dropdown-item" href="<?php echo base_url(''); ?>">Mes Commandes</a></li>
+                                         <li><a class="dropdown-item" href="<?php echo base_url('common/users/home'); ?>">Mon Compte</a></li>
+                                         <li><a class="dropdown-item" href="<?php echo base_url('common/users/home/orders'); ?>">Mes Commandes</a></li>
                                          <li>
                                              <hr class="dropdown-divider">
                                          </li>

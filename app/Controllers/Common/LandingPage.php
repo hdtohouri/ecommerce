@@ -142,6 +142,8 @@ class LandingPage extends BaseController
                 'image' => $product['product_image'],
                 'description' => $product['product_description'],
                 'stock_quantity' => $product['product_quantity'],
+                'color' => $product['product_color'],
+                'secondary_color' => $product['product_secondary_color'],
                 'quantity' => 1,
             );
             $similaire = $product_manager->asObject()->where('id_category',$product['id_category'])->findAll();

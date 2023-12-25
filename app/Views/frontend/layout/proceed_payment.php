@@ -2,8 +2,8 @@
 <?= $this->section('content') ?>
 <div class="container">
     <?php
-        if (isset($special_message))
-            echo $special_message;
+    if (isset($special_message))
+        echo $special_message;
     ?>
     <?php if (isset($items)) : ?>
         <div class="checkout__form">
@@ -66,19 +66,21 @@
 
                             <?php foreach ($items as $item) : ?>
                                 <ul>
-                                    <li><?= $item['name'] ?> <span><?=number_to_currency( $item['price'] * $item['quantity'], 'XAF') ?></span></li>
+                                    <li><?= $item['name'] ?> <span><?= number_to_currency($item['price'] * $item['quantity'], 'XAF') ?></span></li>
                                 </ul>
                             <?php endforeach ?>
-                            <div class="checkout__order__total">Total <span><?=number_to_currency( $total, 'XAF') ?></span></div>
-                            <div class="checkout__input__checkbox">
-                            <label for="">Methode de paiement</label>
-                            <select class="form-select" aria-label="Default select example" name ="mode_paiement">
-                                <option value="Paiement Par Airtel Money">Paiement Par Airtel Money</option>
-                                <option value="Paiement à la livraison">Paiement à la livraison</option>
-                            </select>
-                                
-                            </div>
+                            <div class="checkout__order__total">Total <span><?= number_to_currency($total, 'XAF') ?></span></div>
                             
+                            <div class="checkout__input__checkbox">
+                                <label for="">Methode de paiement</label>
+                                <select class="form-select" aria-label="Default select example" name="mode_paiement">
+                                    <option disabled selected>----- Choisir méthode -------</option>
+                                    <option value="Paiement Par Airtel Money">Paiement Par Airtel Money</option>
+                                    <option value="Paiement à la livraison">Paiement à la livraison</option>
+                                </select>
+
+                            </div>
+
                             <button type="submit" class="site-btn">PASSER COMMANDE</button>
                         </div>
                     </div>

@@ -108,9 +108,9 @@
                                 <td><?= date('d-m-Y H:i', strtotime($orders['order_date']))   ?> </td>
                                 <?php if ($orders['order_statut'] == 'En Attente') : ?>
                                     <td><span class="badge badge-warning"><?= $orders['order_statut'] ?></span></td>
-                                <?php elseif ($orders['order_statut'] == 'Validé') : ?>
+                                <?php elseif ($orders['order_statut'] == 'Commande Validée') : ?>
                                     <td><span class="badge badge-success"><?= $orders['order_statut'] ?></span></td>
-                                <?php elseif ($orders['order_statut'] == 'Annulé') : ?>
+                                <?php elseif ($orders['order_statut'] == 'Commande Annulée') : ?>
                                     <td><span class="badge badge-danger"><?= $orders['order_statut'] ?></span></td>
                                 <?php endif ?>
                                 <td>

@@ -65,13 +65,13 @@ class Login extends BaseController
                 $data = array(
                     'customers_id'             => $customer_details['customers_details']['customers_id'],
                     'customers_username'       => $customer_details['customers_details']['customers_username'],
-                    'customers_password'       => $customer_details['customers_details']['customers_password'],
                     'customers_location'       => $customer_details['customers_details']['customers_location'],
                     'customers_account_status' => $customer_details['customers_details']['customers_account_status'],
+                    'customers_number' => $customer_details['customers_details']['customers_number'],
                     'is_logged_in'             => true
                 ); 
     
-                $this->session->set($data);
+                session()->set($data);
     
                 return redirect()->to(base_url());
             }
@@ -110,6 +110,13 @@ class Login extends BaseController
                 'errors' => [
                     'required' => "Veuillez saisir votre adresse de livraison",
                 ],
+            ],
+            'number' => [
+                'label'  => 'Veuillez saisir votre numero de téléphone',
+                'rules'  => 'required',
+                'errors' => [
+                    'required' => "Veuillez saisir votre numero de téléphone",
+                ],
 
             ]
         );
@@ -134,6 +141,7 @@ class Login extends BaseController
         $user_password = $this->request->getPost('password', FILTER_SANITIZE_STRING);
         $user_location = $this->request->getPost('location', FILTER_SANITIZE_STRING);
         $hashpassword = password_hash($user_password,PASSWORD_DEFAULT);
+        $user_number = $this->request->getPost('number', FILTER_SANITIZE_NUMBER_INT);
 
         $customer_manager = new Customer();
 
@@ -141,6 +149,7 @@ class Login extends BaseController
             'customers_username' => $user_name,
             'customers_password'=> $hashpassword ,
             'customers_location'=> $user_location,
+            'customers_number'=> $user_number,
         ];
         
         $insert = $customer_manager->insert_data($data);
@@ -156,7 +165,6 @@ class Login extends BaseController
             echo view('frontend/layout/users/user_register_screen', array('special_message' => $message));
             return;
         }
-        //return view('frontend/layout/users/user_register_screen');
     }
 
     public function forgotuserpassword()
@@ -190,12 +198,12 @@ class Login extends BaseController
             return;
         }
 
-        $password_manager = new User();
+        $password_manager = new Customer();
         $user_email = $this->request->getPost('email', FILTER_SANITIZE_STRING);
 
         $send_link = $password_manager->verifyEmail($user_email);
 
-        if($send_link ['row']['account_status'] == 'ACTIVE'){
+        if($send_link ['row']['customers_account_status'] == 'ACTIVE'){
             if ($send_link) {
                 $email = \Config\Services::email();
     
@@ -207,7 +215,7 @@ class Login extends BaseController
                 $data = [
                     
                     'token' => $token,
-                    'user_fullname' => $send_link['row']['full_name']
+                    'user_fullname' => $send_link['row']['customers_username']
                 ];
                 $message = view('email_template/forgotpassword', $data);
                 $email->setSubject('Demande de réinitialisation du mot de passe');
@@ -218,7 +226,7 @@ class Login extends BaseController
                                         Le lien pour réinitialiser votre mot de passe vous à été envoyé par mail. Il est valide pour 10 min.
                                     </div>';
                         echo view('frontend/layout/users/user_forgotpassword_screen', array('special_message' => $message));
-                        $password_manager->update_email_token($token, $send_link ['row']['user_id']);
+                        $password_manager->update_email_token($token, $send_link ['row']['customers_id']);
                     }
                 else{
                         $message = '<div class="alert alert-danger alert-dismissible fade show">

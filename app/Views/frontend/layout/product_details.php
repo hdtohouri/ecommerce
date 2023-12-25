@@ -50,43 +50,22 @@
                 </div>
                 <div class="sidebar__item sidebar__item__color--option">
                     <h6 class="mb-2"><b>Couleurs disponible</b></h6>
-                    <div class="sidebar__item__color sidebar__item__color--white">
-                        <label for="white">
-                            White
-                            <input type="radio" id="white">
-                        </label>
-                    </div>
-                    <div class="sidebar__item__color sidebar__item__color--gray">
-                        <label for="gray">
-                            Gray
-                            <input type="radio" id="gray">
-                        </label>
-                    </div>
-                    <div class="sidebar__item__color sidebar__item__color--red">
-                        <label for="red">
-                            Red
-                            <input type="radio" id="red">
-                        </label>
-                    </div>
-                    <div class="sidebar__item__color sidebar__item__color--black">
-                        <label for="black">
-                            Black
-                            <input type="radio" id="black">
-                        </label>
-                    </div>
-                    <div class="sidebar__item__color sidebar__item__color--blue">
-                        <label for="blue">
-                            Blue
-                            <input type="radio" id="blue">
-                        </label>
-                    </div>
-                    <div class="sidebar__item__color sidebar__item__color--green">
+         
+                    <div >
+                        <div ><p></p></div>
                         <label for="green">
-                            Green
-                            <input type="radio" id="green">
+                        <label for="">
+    <?php echo '<p style="color:' . $item['color'] . '">ton texte ici.</p>'; ?>
+</label>
+
+                            <input type="radio" id="html" name="fav_language" value="<?php echo $item['color']; ?>" style="background-color: <?php echo $item['color']; ?>">
                         </label>
                     </div>
                 </div>
+                
+                <span class="colorSwatch" ></span>
+                <span class="colorSwatch" style="background-color: <?php echo $item['secondary_color']; ?>"></span>
+                
             </div>
         </div>
     </div>
