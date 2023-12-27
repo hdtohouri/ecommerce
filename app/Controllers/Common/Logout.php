@@ -10,6 +10,6 @@ class Logout extends BaseController
     {
         session()->remove('logged_in');
         session()->destroy();
-	    return redirect()->to(base_url('common/login'));
+	    return redirect()->to(base_url('common/adminspace/login'));
     }
 }

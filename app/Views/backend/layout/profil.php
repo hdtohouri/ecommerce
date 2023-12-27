@@ -10,7 +10,7 @@
             <nav aria-label="breadcrumb" role="navigation">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="<?php echo base_url("common/dashboard") ?>">Accueil</a>
+                        <a href="<?php echo base_url("common/adminspace/dashboard") ?>">Accueil</a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">
                         Mon Compte
@@ -79,7 +79,7 @@
                         <!-- User information Tab start -->
                         <div class="tab-pane fade show active" id="information" role="tabpanel">
                             <div class="pd-20">
-                                <form action="<?php echo base_url("common/dashboard/update_informations") ?>" method="post">
+                                <form action="<?php echo base_url("common/adminspace/dashboard/update_informations") ?>" method="post">
                                     <?= csrf_field(); ?>
                                     <div class="row">
                                         <div class="col-md-6">
@@ -119,7 +119,7 @@
                         <!-- User Reset password Tab start -->
                         <div class="tab-pane fade" id="password" role="tabpanel">
                             <div class="pd-20 profile-task-wrap">
-                                <form action="<?php echo base_url("common/dashboard/password_update") ?>" method="post">
+                                <form action="<?php echo base_url("common/adminspace/dashboard/password_update") ?>" method="post">
                                     <?= csrf_field(); ?>
                                     <div class="form-group">
                                         <label for="">Mot de passe Actuel</label>

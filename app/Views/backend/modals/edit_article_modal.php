@@ -8,10 +8,12 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="post" action="<?php echo base_url('common/dashboard/list_product'); ?>" enctype="multipart/form-data">
+                <form method="post" action="<?php echo base_url('common/adminspace/dashboard/list_product'); ?>" enctype="multipart/form-data">
                     <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" class="ci_csrf_data">
-                    <input type="hidden" name="id_product" value="<?= $product['id_product'] ?>">
-                    <input type="hidden" name="action" value="editer">
+                    <?php if (isset($product['id_product'])) : ?>
+                        <input type="hidden" name="id_product" value="<?= $product['id_product'] ?>">
+                        <input type="hidden" name="action" value="editer">
+                    <?php endif; ?> 
                     <div class="mb-4">
                         <label for="Nom_article" class="form-label">Nom Article</label>
                         <input type="text" class="form-control" name="Nom_article" placeholder="Veuillez saisir le nom de l'article" />

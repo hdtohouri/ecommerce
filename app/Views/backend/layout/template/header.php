@@ -3,7 +3,7 @@
 		<div class="menu-icon bi bi-list"></div>
 		<div class="search-toggle-icon bi bi-search" data-toggle="header_search"></div>
 		<div class="header-search">
-			<form action="<?php echo base_url('common/dashboard/search_result') ?>" method="post">
+			<form action="<?php echo base_url('common/adminspace/dashboard/search_result') ?>" method="post">
 				<div class="form-group mb-0">
 					<i class="dw dw-search2 search-icon"></i>
 					<input type="text" class="form-control search-input" name="search" placeholder="saisir votre recherche" />
@@ -25,7 +25,7 @@
 					</span>
 				</a>
 				<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-					<a class="dropdown-item" href="<?php echo base_url("common/dashboard/profil") ?>"><i class="dw dw-settings2"></i> Mon Compte</a>
+					<a class="dropdown-item" href="<?php echo base_url("common/adminspace/dashboard/profil") ?>"><i class="dw dw-settings2"></i> Mon Compte</a>
 					<a class="dropdown-item" href="<?php echo base_url("common/logout") ?>"><i class="dw dw-logout"></i> Deconnexion</a>
 				</div>
 			</div>

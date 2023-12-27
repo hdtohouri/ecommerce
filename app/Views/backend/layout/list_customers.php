@@ -13,7 +13,7 @@
                 <nav aria-label="breadcrumb" role="navigation">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a href="<?php echo base_url("common/dashboard") ?>">Accueil</a>
+                            <a href="<?php echo base_url("common/adminspace/dashboard") ?>">Accueil</a>
                         </li>
                         <li class="breadcrumb-item active" aria-current="page">
                             Liste des Utilisateurs

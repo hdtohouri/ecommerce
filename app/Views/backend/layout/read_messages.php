@@ -10,7 +10,7 @@
             <nav aria-label="breadcrumb" role="navigation">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="<?php echo base_url("common/dashboard") ?>">Accueil</a>
+                        <a href="<?php echo base_url("common/adminspace/dashboard") ?>">Accueil</a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">
                         Mes Messages
@@ -60,7 +60,7 @@
         </div>
         <div class="row pb-30">
         <div class="col-7">
-            <a class="text-decoration-none" href="<?php echo base_url('common/dashboard/message') ?>"><i class="icon-copy dw dw-left-arrow-3"></i> Retour</a>
+            <a class="text-decoration-none" href="<?php echo base_url('common/adminspace/dashboard/message') ?>"><i class="icon-copy dw dw-left-arrow-3"></i> Retour</a>
         </div>
     </div>
     </div>

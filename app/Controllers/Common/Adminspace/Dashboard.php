@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\Common;
+namespace App\Controllers\Common\Adminspace;
 
 use App\Controllers\BaseController;
 use App\Models\User;
@@ -10,6 +10,8 @@ use App\Models\Orders;
 use App\Models\Customer;
 use App\Models\Products;
 use App\Models\ShoppingCart;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 //use function PHPUnit\Framework\isNull;
 
@@ -53,7 +55,7 @@ class Dashboard extends BaseController
                 $delete = $model->delete($id_order);
                 if (!empty($delete)) {
                     session()->setFlashdata('success_message', "Commande supprimée avec succès");
-                    return redirect()->to(base_url('common/dashboard'));
+                    return redirect()->to(base_url('common/adminspace/dashboard'));
                 }else{
                     session()->setFlashdata('error_message', "ERREUR, Merci de reessayer");
                 }
@@ -143,18 +145,18 @@ class Dashboard extends BaseController
 
             if(empty($data)) {
                 session()->setFlashdata('error_message', 'Merci de saisir les informations');
-                return redirect()->to(base_url('common/dashboard/profil'));
+                return redirect()->to(base_url('common/adminspace/dashboard/profil'));
             }
             $updated = $userinfos->update_data(session('user_id'), $data);
             
             if ($updated) {
                 session()->set($data);
                 session()->setFlashdata('success_message', 'Mise à Jour éffectuée avec succès.');
-                return redirect()->to(base_url('common/dashboard/profil'));
+                return redirect()->to(base_url('common/adminspace/dashboard/profil'));
                 
             } else {
                 session()->setFlashdata('error_message', 'Une erreur est survenue. Merci de reésayer');
-                return redirect()->to(base_url('common/dashboard/profil'));
+                return redirect()->to(base_url('common/adminspace/dashboard/profil'));
             }
         }
     }
@@ -230,15 +232,15 @@ class Dashboard extends BaseController
                 if($verify_actual_password)
                 {
                     session()->setFlashdata('success_message', 'Mot de passe modifié avec succès.');
-                    return redirect()->to(base_url('common/dashboard/profil'));
+                    return redirect()->to(base_url('common/adminspace/dashboard/profil'));
                 }
                 else{
                     session()->setFlashdata('error_message', 'Échec de la modification du mot de passe.');
-                    return redirect()->to(base_url('common/dashboard/profil'));
+                    return redirect()->to(base_url('common/adminspace/dashboard/profil'));
                 } 
             }else{
                 session()->setFlashdata('error_message', 'Le mot de passe actuel saisit ne correspond pas.');
-                return redirect()->to(base_url('common/dashboard/profil'));
+                return redirect()->to(base_url('common/adminspace/dashboard/profil'));
             } 
         }
     }
@@ -371,7 +373,7 @@ class Dashboard extends BaseController
                 $desactivate = $admin_list->desactivate_user($user_id);
                 if (!empty($desactivate)) {
                     session()->setFlashdata('success_message', "Le compte à été désactivé avec succès");
-                    return redirect()->to(base_url('common/dashboard/list_admin'));
+                    return redirect()->to(base_url('common/adminspace/dashboard/list_admin'));
                 }else{
                     session()->setFlashdata('error_message', "ERREUR, Merci de reessayer");
                 }
@@ -383,7 +385,7 @@ class Dashboard extends BaseController
                 if (!empty($activate)) {
 
                     session()->setFlashdata('success_message', "Le compte à été activé avec succès");
-                    return redirect()->to(base_url('common/dashboard/list_admin'));
+                    return redirect()->to(base_url('common/adminspace/dashboard/list_admin'));
                 }else{
                     session()->setFlashdata('error_message', "ERREUR, Merci de reessayer");
                 }
@@ -396,7 +398,7 @@ class Dashboard extends BaseController
                 if (!empty($delete)) {
                     
                     session()->setFlashdata('success_message', "Le compte à été supprimé avec succès");
-                    return redirect()->to(base_url('common/dashboard/list_admin'));
+                    return redirect()->to(base_url('common/adminspace/dashboard/list_admin'));
                 }
                 else{
                     session()->setFlashdata('error_message', "ERREUR, Merci de reessayer");
@@ -456,17 +458,17 @@ class Dashboard extends BaseController
 
             if(empty($categorie_name)) {
                 session()->setFlashdata('error_message', 'Merci de saisir le nom de la categorie');
-                return redirect()->to(base_url('common/dashboard/add_categories'));
+                return redirect()->to(base_url('common/adminspace/dashboard/add_categories'));
             }
             $add_categorie = $category_infos->insert_in_db( $data);
             
             if ($add_categorie) {
                 session()->setFlashdata('success_message', 'Categorie ajoutée avec succès.');
-                return redirect()->to(base_url('common/dashboard/add_categories'));
+                return redirect()->to(base_url('common/adminspace/dashboard/add_categories'));
                 
             } else {
                 session()->setFlashdata('error_message', 'Une erreur est survenue. Merci de reésayer');
-                return redirect()->to(base_url('common/dashboard/add_categories'));
+                return redirect()->to(base_url('common/adminspace/dashboard/add_categories'));
             }
 
         }
@@ -488,13 +490,13 @@ class Dashboard extends BaseController
                     if (!empty($edit)) {
 
                         session()->setFlashdata('success_message', "Le nom de la catégorie à été édité avec succès");
-                        return redirect()->to(base_url('common/dashboard/add_categories'));
+                        return redirect()->to(base_url('common/adminspace/dashboard/add_categories'));
                     } else {
                         session()->setFlashdata('error_message', "ERREUR, Merci de reessayer");
                     }
                 }else{
                     session()->setFlashdata('error_message', "Veuillez saisir le nom de la catégorie.");
-                    return redirect()->to(base_url('common/dashboard/add_categories'));
+                    return redirect()->to(base_url('common/adminspace/dashboard/add_categories'));
                 }
             }
             elseif($action === 'delete')
@@ -504,7 +506,7 @@ class Dashboard extends BaseController
                 if (!empty($delete)) {
 
                     session()->setFlashdata('success_message', "La catégorie à été supprimé avec succès");
-                    return redirect()->to(base_url('common/dashboard/add_categories'));
+                    return redirect()->to(base_url('common/adminspace/dashboard/add_categories'));
                 }else{
                     session()->setFlashdata('error_message', "ERREUR, Merci de reessayer");
                 }
@@ -645,12 +647,12 @@ class Dashboard extends BaseController
                 if($insert_product)
                 {
                     session()->setFlashdata('success_message', "L'ajout de l'article a bien été pris en compte");
-                    return redirect()->to(base_url('common/dashboard/add_product'));
+                    return redirect()->to(base_url('common/adminspace/dashboard/add_product'));
                     
                 }
                 else {
                     session()->setFlashdata('error_message', "L'ajout de l'article n'a pas été éffecuté. Merci de reésayer.");
-                    return redirect()->to(base_url('common/dashboard/add_product'));
+                    return redirect()->to(base_url('common/adminspace/dashboard/add_product'));
                 }
             }
         
@@ -689,7 +691,7 @@ class Dashboard extends BaseController
                 $delete = $message_list->delete($id_message);
                 if (!empty($delete)) {
                     session()->setFlashdata('success_message', "Message supprimé avec succès");
-                    return redirect()->to(base_url('common/dashboard/message'));
+                    return redirect()->to(base_url('common/adminspace/dashboard/message'));
                 }else{
                     session()->setFlashdata('error_message', "ERREUR, Merci de reessayer");
                 }
@@ -739,7 +741,7 @@ class Dashboard extends BaseController
 
                 if (!empty($desactivate)) {
                     session()->setFlashdata('success_message', "Le compte à été désactivé avec succès");
-                    return redirect()->to(base_url('common/dashboard/list_customers'));
+                    return redirect()->to(base_url('common/adminspace/dashboard/list_customers'));
                 }else{
                     session()->setFlashdata('error_message', "ERREUR, Merci de reessayer");
                 }
@@ -751,7 +753,7 @@ class Dashboard extends BaseController
                 if (!empty($activate)) {
 
                     session()->setFlashdata('success_message', "Le compte à été activé avec succès");
-                    return redirect()->to(base_url('common/dashboard/list_customers'));
+                    return redirect()->to(base_url('common/adminspace/dashboard/list_customers'));
                 }else{
                     session()->setFlashdata('error_message', "ERREUR, Merci de reessayer");
                 }
@@ -764,7 +766,7 @@ class Dashboard extends BaseController
                 if (!empty($delete)) {
                     
                     session()->setFlashdata('success_message', "Le compte à été supprimé avec succès");
-                    return redirect()->to(base_url('common/dashboard/list_customers'));
+                    return redirect()->to(base_url('common/adminspace/dashboard/list_customers'));
                 }
                 else{
                     session()->setFlashdata('error_message', "ERREUR, Merci de reessayer");
@@ -885,7 +887,7 @@ class Dashboard extends BaseController
 
                if (!empty($editer)) {
                    session()->setFlashdata('success_message', "L'article a été édité avec succès");
-                   return redirect()->to(base_url('common/dashboard/list_product'));
+                   return redirect()->to(base_url('common/adminspace/dashboard/list_product'));
                }else{
                    session()->setFlashdata('error_message', "ERREUR, Merci de reessayer");
                }
@@ -902,7 +904,7 @@ class Dashboard extends BaseController
                    
                    session()->setFlashdata('success_message', "L'article' à été supprimé avec succès");
                    unlink('./uploads/'.$image_name);
-                   return redirect()->to(base_url('common/dashboard/list_product'));
+                   return redirect()->to(base_url('common/adminspace/dashboard/list_product'));
                }
                else{
                    session()->setFlashdata('error_message', "ERREUR, Merci de reessayer");
@@ -975,7 +977,7 @@ class Dashboard extends BaseController
             }
             else{
                 session()-> setFlashdata('special_message','Aucune commande trouvée');
-                return redirect()->to(base_url('common/dashboard/manage_orders'));
+                return redirect()->to(base_url('common/adminspace/dashboard/manage_orders'));
             }
             
             return view('backend/layout/manage_orders');
@@ -991,12 +993,12 @@ class Dashboard extends BaseController
         if($action === 'valider'){
             $validate = $orders_manager->validate_order($order_number);
             session()->setFlashdata('success_message', "La commande a été validée avec succès");
-            return redirect()->to(base_url('common/dashboard'));
+            return redirect()->to(base_url('common/adminspace/dashboard'));
         }
         elseif($action === 'annuler'){
             $validate = $orders_manager->refuse_order($order_number);
             session()->setFlashdata('success_message', "La commande a été annulée avec succès");
-            return redirect()->to(base_url('common/dashboard'));
+            return redirect()->to(base_url('common/adminspace/dashboard'));
         }
 
         
@@ -1060,12 +1062,28 @@ class Dashboard extends BaseController
             if ($add_pic) {
                 session()->setFlashdata('success_message', 'Photo de profil ajoutée avec succès.');
                 session()->set('user_pic',$url);
-                return redirect()->to(base_url('common/dashboard/profil'));
+                return redirect()->to(base_url('common/adminspace/dashboard/profil'));
                 
             } else {
                 session()->setFlashdata('error_message', 'Une erreur est survenue. Merci de reésayer');
-                return redirect()->to(base_url('common/dashboard/profil'));
+                return redirect()->to(base_url('common/adminspace/dashboard/profil'));
             }
         }
+    }
+
+    public function print()
+    {
+
+       
+                $options = new Options();
+                $options->set('isRemoteEnabled',true);
+                $dompdf = new Dompdf($options);
+                $html = view("backend/layout/invoice");
+                $dompdf->loadHtml($html);
+                $dompdf->render();
+                $file_name = 'Recu_Beautyfashion';
+                $dompdf->stream($file_name,['Attachment' =>false]);
+                return view('backend/layout/print_orders');
+        
     }
 }

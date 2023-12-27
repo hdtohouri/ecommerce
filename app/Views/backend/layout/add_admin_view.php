@@ -13,7 +13,7 @@
                 <nav aria-label="breadcrumb" role="navigation">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a href="<?php echo base_url("common/dashboard") ?>">Accueil</a>
+                            <a href="<?php echo base_url("common/adminspace/dashboard") ?>">Accueil</a>
                         </li>
                         <li class="breadcrumb-item active" aria-current="page">
                             Ajouter Administrateur
@@ -27,7 +27,7 @@
             </div>
             <div class="col-md-6 col-sm-12 text-right">
                 <div class="dropdown">
-                    <a class="btn btn-primary " href="<?php echo base_url("common/dashboard/list_admin") ?>" role="button" >
+                    <a class="btn btn-primary " href="<?php echo base_url("common/adminspace/dashboard/list_admin") ?>" role="button" >
                         Voir liste des Administrateurs
                     </a>
                 </div>
@@ -41,7 +41,7 @@
             <p class="mb-30">Veuillez saisir les informations de l'administrateur</p>
         </div>
         <div class="wizard-content">
-            <form action="<?php echo base_url("common/dashboard/add_admin") ?>" method="post">
+            <form action="<?php echo base_url("common/adminspace/dashboard/add_admin") ?>" method="post">
                 <?= csrf_field(); ?>
                 <div class="content clearfix">
                         <div class="row">

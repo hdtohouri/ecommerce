@@ -1,6 +1,6 @@
 <div class="modal fade" id="delete-article-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-dialog-centered" data-backdrop="static">
-        <form class="modal-content" action="<?php echo base_url('common/dashboard/list_product') ?>" method="post" id="delete_form">
+        <form class="modal-content" action="<?php echo base_url('common/adminspace/dashboard/list_product') ?>" method="post" id="delete_form">
             <div class="modal-header">
                 <h4 class="modal-title" id="myLargeModalLabel">
                     Large modal

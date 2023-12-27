@@ -13,7 +13,7 @@
                 <nav aria-label="breadcrumb" role="navigation">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a href="<?php echo base_url("common/dashboard") ?>">Accueil</a>
+                            <a href="<?php echo base_url("common/adminspace/dashboard") ?>">Accueil</a>
                         </li>
                         <li class="breadcrumb-item active" aria-current="page">
                             Lister des Articles
@@ -27,7 +27,7 @@
             </div>
             <div class="col-md-6 col-sm-12 text-right">
                 <div class="dropdown">
-                    <a class="btn btn-primary " href="<?php echo base_url('common/dashboard/add_product') ?>" role="button">
+                    <a class="btn btn-primary " href="<?php echo base_url('common/adminspace/dashboard/add_product') ?>" role="button">
                         Ajouter un Article
                     </a>
                 </div>

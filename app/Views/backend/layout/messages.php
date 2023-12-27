@@ -10,7 +10,7 @@
             <nav aria-label="breadcrumb" role="navigation">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="<?php echo base_url("common/dashboard") ?>">Accueil</a>
+                        <a href="<?php echo base_url("common/adminspace/dashboard") ?>">Accueil</a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">
                         Mes Messages
@@ -44,8 +44,8 @@
                         <?php $i = 0;
                         foreach ($message as $message) : ?>
                             <tr>
-                                <td><a href="<?php echo base_url("common/dashboard/read_message/" . $message['id_contact_us']) ?>"> <?= $message['name'] ?></a></td>
-                                <td><a href="<?php echo base_url("common/dashboard/read_message/" . $message['id_contact_us']) ?>"><?= $message['object'] ?></a></td>
+                                <td><a href="<?php echo base_url("common/adminspace/dashboard/read_message/" . $message['id_contact_us']) ?>"> <?= $message['name'] ?></a></td>
+                                <td><a href="<?php echo base_url("common/adminspace/dashboard/read_message/" . $message['id_contact_us']) ?>"><?= $message['object'] ?></a></td>
                                 <td>
                                     <button type="button" class="btn user-action-button text-danger" id="delete_message" data-userid="<?= $message['id_contact_us'] ?>">
                                         <i class="icon-copy dw dw-delete-3" data-toggle="tooltip" title="Supprimer ce message "></i>

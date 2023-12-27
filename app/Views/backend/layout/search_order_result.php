@@ -14,7 +14,7 @@
                 <nav aria-label="breadcrumb" role="navigation">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a href="<?php echo base_url("common/dashboard") ?>">Accueil</a>
+                            <a href="<?php echo base_url("common/adminspace/dashboard") ?>">Accueil</a>
                         </li>
                         <li class="breadcrumb-item active" aria-current="page">
                             Gestion des Commandes
@@ -32,7 +32,7 @@
     </div><br><br>
 
     <div class="card-box pb-10">
-        <div class="h5 pd-20 mb-0 text-success">Commande trouvée : N° <b><?php echo $order['order_number'] ?></b></div>
+        <div class="h5 pd-20 mb-0 text-success">Commande trouvée : N° <b><?php echo $order['order_number'] ?></b> <a href="<?php echo base_url("common/dashboard/print") ?>" class="btn btn-success" target="_blank">Imprimer Reçu</a></div>
 
         <div class="row">
             <div class="col-sm-4">
@@ -84,10 +84,11 @@
                 </table>
             </div>
             <div class="h5 pd-20 mb-0 text-success">Total : <b><?= number_to_currency($order['order_total'], 'XAF') ?></b></div>
+            
         </div>
         <div class="row">
             <div class="col-sm-4">
-                <form action="<?php echo base_url("common/dashboard/order_response") ?>" method="post">
+                <form action="<?php echo base_url("common/adminspace/dashboard/order_response") ?>" method="post">
                     <?= csrf_field(); ?>
                     <div class="form-group">
                         <?php
@@ -104,7 +105,7 @@
                 </form>
             </div>
             <div class="col-sm-4">
-                <form action="<?php echo base_url("common/dashboard/order_response") ?>" method="post">
+                <form action="<?php echo base_url("common/adminspace/dashboard/order_response") ?>" method="post">
                     <?= csrf_field(); ?>
                     <div class="form-group">
                         <?php

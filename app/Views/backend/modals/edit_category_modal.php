@@ -1,6 +1,6 @@
 <div class="modal fade" id="edit-category-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-dialog-centered" data-backdrop="static">
-        <form class="modal-content" action="<?php echo base_url('common/dashboard/update_categories') ?>" method="post" id="add_category_form">
+        <form class="modal-content" action="<?php echo base_url('common/adminspace/dashboard/update_categories') ?>" method="post" id="add_category_form">
             <div class="modal-header">
                 <h4 class="modal-title" id="myLargeModalLabel">
                     Large modal
@@ -14,8 +14,10 @@
                 <div class="form-group">
                     <label for="">Nom Categorie</label>
                     <input type="text" class="form-control" name="categorie_name" value="<?= set_value('categorie_name') ?>" placeholder="Veuillez saisir le nom de la categorie">
-                    <input type="hidden" name="id_categories"  value="<?= $category['id_categories'] ?>">
-                    <input type="hidden" name="action" value="edit">
+                    <?php if (isset($category['id_categories'])) : ?>
+                        <input type="hidden" name="id_categories"  value="<?= $category['id_categories'] ?>">
+                        <input type="hidden" name="action" value="edit">
+                    <?php endif; ?> 
                     <?php if (isset($validation) && $validation->hasError('categorie_name')) {
                         echo "<div style='color: #ff0000'>" . $validation->getError('categorie_name') . "</div>";
                     } ?>

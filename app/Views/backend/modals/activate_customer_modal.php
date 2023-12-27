@@ -1,6 +1,6 @@
 <div class="modal fade" id="activate-customer-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-dialog-centered" data-backdrop="static">
-        <form class="modal-content" action="<?php echo base_url('common/dashboard/list_customers') ?>" method="post" id="add_category_form">
+        <form class="modal-content" action="<?php echo base_url('common/adminspace/dashboard/list_customers') ?>" method="post" id="add_category_form">
             <div class="modal-header">
                 <h4 class="modal-title" id="myLargeModalLabel">
                     Large modal
