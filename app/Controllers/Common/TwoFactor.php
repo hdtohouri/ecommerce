@@ -101,7 +101,7 @@ class TwoFactor extends BaseController
         }
     }
 
-    public function login($token = null)
+    public function connexion($token = null)
     {
         $validation_rules = array(
             'code' => [

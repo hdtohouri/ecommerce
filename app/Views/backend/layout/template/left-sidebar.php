@@ -61,7 +61,7 @@
 					</a>
 					<ul class="submenu">
 						<li><a href="<?php echo base_url('common/adminspace/dashboard/manage_orders') ?>">Gestion des Commandes</a></li>
-						<li><a href="<?php echo base_url("common/adminspace/dashboard/print") ?>">Imprimer Reçu</a></li>
+						<li><a href="<?php echo base_url("common/adminspace/dashboard/print") ?>">Générer Reçu</a></li>
 					</ul>
 				</li>
 				<li class="dropdown">

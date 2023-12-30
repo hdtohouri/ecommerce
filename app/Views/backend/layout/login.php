@@ -8,16 +8,16 @@
             echo $special_message;
         ?>
     </div>
-    <form action="<?php echo base_url('common/adminspace/login'); ?>" method="post">
+    <form action="<?php echo base_url('common/adminspace/connexion'); ?>" method="post">
         <?= csrf_field() ?>
         <div class="mb-4 form-group">
-            <input type="text" class="form-control form-control-user" id="username" name="username"  value="<?= set_value('username') ?>" placeholder="Nom d'utilisateur" autofocus />
+            <input type="text" class="form-control form-control-user" name="username" value="<?= set_value('password') ?>"  placeholder="Nom d'utilisateur" autofocus />
             <?php if (isset($validation) && $validation->hasError('username')) {
                 echo "<div style='color: #ff0000'>" . $validation->getError('username') . "</div>";
             } ?>
         </div>
         <div class="mb-4 form-group">
-            <input type="password" class="form-control form-control-user" id="password" value="<?= set_value('password') ?>"  name="password" placeholder="**********" autofocus />
+            <input type="password" class="form-control form-control-user"  name="password" value="<?= set_value('password') ?>" placeholder="**********" autofocus />
             <?php if (isset($validation) && $validation->hasError('password')) {
                 echo "<div style='color: #ff0000'>" . $validation->getError('password') . "</div>";
             } ?>
@@ -25,7 +25,7 @@
         <div class="row pb-30">
             <div class="col-7">
                 <div class="forgot-password">
-                    <a class="text-decoration-none" href="<?php echo base_url('common/adminspace/login/forgotpassword') ?>">Mot de passe oublié ?</a>
+                    <a class="text-decoration-none" href="<?php echo base_url('common/adminspace/connexion/forgotpassword') ?>">Mot de passe oublié ?</a>
                 </div>
             </div>
         </div>

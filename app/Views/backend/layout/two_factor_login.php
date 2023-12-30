@@ -12,7 +12,7 @@
     <?php if (isset($error_message)) : ?>
         <div class="alert alert-danger"><?= $error_message ?></div>
     <?php else : ?>
-    <form action="<?php echo base_url('common/twofactor/login/'.$token); ?>" method="post">
+    <form action="<?php echo base_url('common/twofactor/connexion/'.$token); ?>" method="post">
         <?= csrf_field() ?>
         <div class="mb-4 form-group">
             <input type="number" class="form-control form-control-user" id="code" name="code" min="1" value="<?= set_value('code') ?>" placeholder="Veuillez saisir le code reçu par mail" autofocus />

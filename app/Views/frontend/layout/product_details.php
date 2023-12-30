@@ -1,108 +1,97 @@
 <?= $this->extend('frontend/layout/frontend_template') ?>
 <?= $this->section('content') ?>
-<?php if(isset($item) && $item != NULL ): ?>
-<div class="container">
-    <div class="row">
-        <div class="col-lg-6 col-md-6">
-            <div class="product__details__pic">
-                <div class="product__details__pic__item">
-                    <img class="product__details__pic__item--large" src="<?= $item['image'] ?>" alt="">
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-6 col-md-6">
-            <div class="product__details__text">
-                <h3><?= $item['name'] ?></h3>
-                <div class="product__details__price"><?= number_to_currency($item['price'], 'XAF')  ?> </div>
-                <p><?= $item['description'] ?></p>
-
-                <a href="<?php echo base_url('common/shoppingcart/cart/' . $item['id']) ?>" class="primary-btn">Ajouter au panier</a>
-                <a href="<?php echo base_url('common/favoris/add_favoris/' . $item['id']) ?>" class="heart-icon"><span class="icon_heart_alt"></span></a>
-                <ul>
-                    <li><b>Quantité en stock</b> <span><?= $item['stock_quantity'] ?></span></li>
-                </ul>
-                <div class="sidebar__item">
-                    <h6 class="mb-2"><b>Tailles disponible</b></h6>
-                    <div class="sidebar__item__size">
-                        <label for="large">
-                            Large
-                            <input type="radio" id="large">
-                        </label>
-                    </div>
-                    <div class="sidebar__item__size">
-                        <label for="medium">
-                            Medium
-                            <input type="radio" id="medium">
-                        </label>
-                    </div>
-                    <div class="sidebar__item__size">
-                        <label for="small">
-                            Small
-                            <input type="radio" id="small">
-                        </label>
-                    </div>
-                    <div class="sidebar__item__size">
-                        <label for="tiny">
-                            Tiny
-                            <input type="radio" id="tiny">
-                        </label>
-                    </div>
-                </div>
-                <div class="sidebar__item sidebar__item__color--option">
-                    <h6 class="mb-2"><b>Couleurs disponible</b></h6>
-         
-                    <div >
-                        <div ><p></p></div>
-                        <label for="green">
-                        <label for="">
-    <?php echo '<p style="color:' . $item['color'] . '">ton texte ici.</p>'; ?>
-</label>
-
-                            <input type="radio" id="html" name="fav_language" value="<?php echo $item['color']; ?>" style="background-color: <?php echo $item['color']; ?>">
-                        </label>
-                    </div>
-                </div>
-                
-                <span class="colorSwatch" ></span>
-                <span class="colorSwatch" style="background-color: <?php echo $item['secondary_color']; ?>"></span>
-                
-            </div>
-        </div>
-    </div>
-</div>
-<br><br><br>
-<section class="related-product">
+<link rel="stylesheet" href=<?php echo base_url("frontend/css/jquery.floating-social-share.min") ?> type="text/css">
+<link rel="stylesheet" href=<?php echo base_url("/frontend/css/test.css") ?> type="text/css">
+<?php if (isset($item) && $item != NULL) : ?>
     <div class="container">
         <div class="row">
-            <div class="col-lg-12">
-                <div class="section-title related__product__title">
-                    <h2>Produits Similaires</h2>
+            <div class="col-lg-6 col-md-6">
+                <div class="product__details__pic">
+                    <div class="product__details__pic__item">
+                        <img class="product__details__pic__item--large" src="<?= $item['image'] ?>" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <div class="product__details__text">
+                    <h3><?= $item['name'] ?></h3>
+                    <div class="product__details__price"><?= number_to_currency($item['price'], 'XAF')  ?> </div>
+                    <p><?= $item['description'] ?></p>
+
+                    <ul></ul>
+                    <?php if ($item['secondary_color'] || $item['color'] || $item['taille']) : ?>
+                        <form action="<?php echo base_url('common/shoppingcart/cart/') . $item['id'] ?>" method="post">
+                            <table>
+                                <tbody>
+                                    <?php if ($item['secondary_color']) : ?>
+                                        <tr>
+                                            <div class="sidebar__item sidebar__item__color--option">
+                                                <h6 class="mb-2"><b>Couleur</b></h6>
+                                                <div>
+                                                    <div class="cercle" id="maDiv" style="background-color: <?php echo $item['color']; ?>">
+                                                        <input type="checkbox" name="color_name" value="<?= $item['color']; ?>" hidden>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </tr>
+                                    <?php endif; ?>
+                                </tbody>
+                                <?php if ($item['taille']) : ?>
+                                    <div class="sidebar__item">
+                                        <h6 class="mb-2"><b>Taille</b></h6>
+                                        <div class="sidebar__item__size">
+                                            <label for="large">
+                                                <?php echo $item['taille']; ?>
+                                                <input type="radio" id="large" name="taille_name2">
+                                            </label>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                            </table>
+                            <button type="submit" class="primary-btn border-0">Ajouter au panier</button>
+                            <a href="<?php echo base_url('common/favoris/add_favoris/' . $item['id']) ?>" class="heart-icon"><span class="icon_heart_alt"></span></a>
+                        </form>
+                    <?php else : ?>
+                        <a href="<?php echo base_url('common/shoppingcart/cart/' . $item['id']) ?>" class="primary-btn">Ajouter au panier</a>
+                        <a href="<?php echo base_url('common/favoris/add_favoris/' . $item['id']) ?>" class="heart-icon"><span class="icon_heart_alt"></span></a>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <?php $i = 0;
-            foreach ($similaire as $product) : ?>
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="<?= $product->product_image ?>" style="background-image: url(&quot;<?= $product->product_image ?>&quot;);">
-                            <ul class="product__item__pic__hover">
-                                <li><a href="<?php echo base_url('common/favoris/add_favoris/' . $product->id_product) ?>"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="<?php echo base_url('common/landingpage/get_details/' . $product->product_name)  ?>"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6><a href="#"><?= $product->product_name ?></a></h6>
-                            <h5><?= number_to_currency($product->product_price, 'XAF') ?></h5>
-                        </div>
+    </div>
+    <br><br><br>
+    <section class="related-product">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title related__product__title">
+                        <h2>Produits Similaires</h2>
                     </div>
                 </div>
-            <?php endforeach; ?>
+            </div>
+            <div class="row">
+                <?php $i = 0;
+                foreach ($similaire as $product) : ?>
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="<?= $product->product_image ?>" style="background-image: url(&quot;<?= $product->product_image ?>&quot;);">
+                                <ul class="product__item__pic__hover">
+                                    <li><a href="<?php echo base_url('common/favoris/add_favoris/' . $product->id_product) ?>"><i class="fa fa-heart"></i></a></li>
+                                    <li><a href="<?php echo base_url('common/landingpage/get_details/' . $product->product_name)  ?>"><i class="fa fa-shopping-cart"></i></a></li>
+                                </ul>
+                            </div>
+                            <div class="product__item__text">
+                                <h6><a href="#"><?= $product->product_name ?></a></h6>
+                                <h5><?= number_to_currency($product->product_price, 'XAF') ?></h5>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 <?php else : ?>
-        <h6>Une erreur est survenue</h6>
+    <h6>Une erreur est survenue</h6>
 <?php endif; ?>
 <script>
     <?php if (session()->has('success_message')) : ?>
@@ -114,5 +103,32 @@
             close: true
         }).showToast();
     <?php endif; ?>
+
+    var maDiv = document.getElementById('maDiv');
+
+    // Ajout d'un gestionnaire d'événements 'click'
+    maDiv.addEventListener('click', function() {
+        Toastify({
+            text: "Couleur ajoutéé",
+            duration: 4000,
+            position: "right",
+            gravity: "top",
+            close: true
+        }).showToast();
+        console.log('La div a été cliquée !');
+        // Ajoutez ici le code pour gérer le clic sur la div
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+<script src=<?php echo base_url("frontend/js/jquery.floating-social-share.min") ?>></script>
+<script>
+    var currentURL = "<?= base_url('common/landingpage/get_details/' . $item['name']); ?>";
+    $("body").floatingSocialShare({
+        text: "Partager",
+        url: currentURL,
+        counter: true,
+        buttons: ["facebook", "twitter", "whatsapp", "telegram", "linkedin"],
+
+    });
 </script>
 <?= $this->endSection() ?>

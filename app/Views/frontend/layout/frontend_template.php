@@ -54,7 +54,7 @@
     <!-- Js Plugins -->
     <script src=<?php echo base_url("/frontend/js/jquery-3.3.1.min.js") ?>></script>
     <script src=<?php echo base_url("/backend/src/plugins/sweetalert2/sweetalert2.all.js") ?>></script>
-    <script src=<?php echo base_url("frontend/js/sjquery.nice-select.min.js") ?>></script>
+    <script src=<?php echo base_url("frontend/js/jquery.nice-select.min.js") ?>></script>
     <script src=<?php echo base_url("/frontend/js/jquery-ui.min.js") ?>></script>
     <script src=<?php echo base_url("/frontend/js/jquery.slicknav.js") ?>></script>
     <script src=<?php echo base_url("/frontend/js/mixitup.min.js") ?>></script>

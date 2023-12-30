@@ -6,7 +6,7 @@ use App\Controllers\BaseController;
 use App\Models\User;
 use CodeIgniter\Session\Session;
 
-class Login extends BaseController
+class Connexion extends BaseController
 {
     protected $helpers = ['form'];
 
@@ -14,7 +14,7 @@ class Login extends BaseController
     public function index()
     {
         
-        if ($this->session->get('logged_in')) {
+        if (session()->get('logged_in')) {
             return redirect()->to(base_url('common/adminspace/dashboard'));
         }
        
@@ -234,7 +234,7 @@ class Login extends BaseController
                                 ]);
                                 break;
                             case 'get':
-                                $message = $this->session->getFlashdata('special_message');
+                                $message = session()->getFlashdata('special_message');
                                 echo view('backend/layout/reset_password', [
                                     'token' => $token,
                                     'special_message' => $message

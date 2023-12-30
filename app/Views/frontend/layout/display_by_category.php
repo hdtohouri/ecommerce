@@ -11,7 +11,7 @@
                         <ul>
                             <?php if (isset($list_category)) : ?>
                                 <?php foreach ($list_category as $category) : ?>
-                                    <li class="text-capitalize"><a href="<?php echo base_url('common/landingpage/display_by_cat/'.$category['id_categories']) ?>"><?= $category['nom_categories'] ?></a></li>
+                                    <li class="text-capitalize"><a href="<?php echo base_url('common/landingpage/display_by_cat/'.$category['id_categories'])?>"><?= $category['nom_categories'] ?></a></li>
                                 <?php endforeach; ?>
                             <?php endif; ?> 
                         </ul>
@@ -136,20 +136,20 @@
                 <div class="filter__item"></div>
             <?php endif ?>
                 <div class="row">
-            <?php if (isset($orders)): ?>
+            <?php if (isset($products)): ?>
                     <?php $i = 0;
-                    foreach ($orders as $product) : ?>
+                    foreach ($products as $product) : ?>
                     <div class="col-lg-4 col-md-6 col-sm-6">
                         <div class="product__item">
-                            <div class="product__item__pic set-bg" data-setbg="<?= $product['product_image'] ?>" style="background-image: url(&quot;<?= $product['product_image'] ?>&quot;);">
+                            <div class="product__item__pic set-bg" data-setbg="<?= $product->product_image ?>" style="background-image: url(&quot;<?= $product->product_image ?>&quot;);">
                                 <ul class="product__item__pic__hover">
-                                    <li><a href="<?php echo base_url('common/favoris/add_favoris/'.$product['id_product']) ?>"><i class="fa fa-heart"></i></a></li>
-                                    <li><a href="<?php echo base_url('common/landingpage/get_details/'.$product['product_name'])  ?>"  ><i class="fa fa-shopping-cart"></i></a></li>
+                                    <li><a href="<?php echo base_url('common/favoris/add_favoris/'.$product->id_product) ?>"><i class="fa fa-heart"></i></a></li>
+                                    <li><a href="<?php echo base_url('common/landingpage/get_details/'.$product->product_name)?>"  ><i class="fa fa-shopping-cart"></i></a></li>
                                 </ul>
                             </div>
                             <div class="product__item__text">
-                                <h6><a href="<?php echo base_url('common/landingpage/get_details/'.$product['product_name']) ?>"><?= $product['product_name'] ?></a></h6>
-                                <h5><?= number_to_currency( $product['product_price'], 'XAF')   ?> </h5>
+                                <h6><a href="<?php echo base_url('common/landingpage/get_details/'.$product->product_name)?>"><?= $product->product_name ?></a></h6>
+                                <h5><?= number_to_currency( $product->product_price, 'XAF')?> </h5>
                             </div>
                         </div>
                     </div>

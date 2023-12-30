@@ -30,11 +30,8 @@
                                             </td>
                                             <td class="shoping__cart__quantity">
                                                 <div class="quantity">
-                                                    <div class="pro-qty">
-                                                        <input type="button" value="-" id="moins" onclick="moins()" class="dec qtybtn">
-                                                        <input type="number" name="quantity[]" id="badge" value="<?= $item['quantity'] ?>" min="1">
-                                                        <input type="button" value="+" id="plus" onclick="plus()" class="inc qtybtn">
-                                                        
+                                                    <div class="pro-qty"> 
+                                                        <input type="number" name="quantity" value="<?= $item['quantity'] ?>" min="1"> 
                                                     </div>
                                                 </div>
                                             </td>
@@ -78,23 +75,4 @@
 </section>
 
 
-<script>
-function moins() {
-    var inputField = document.getElementById('badge');
-    var currentValue = parseInt(inputField.value);
-
-    if (currentValue > 1) {
-        inputField.value = currentValue - 1;
-        updateBadgeValue(inputField.value);
-    }
-}
-
-function plus() {
-    var inputField = document.getElementById('badge');
-    var currentValue = parseInt(inputField.value);
-
-    inputField.value = currentValue + 1;
-    updateBadgeValue(inputField.value);
-}
-</script>
 <?= $this->endSection() ?>

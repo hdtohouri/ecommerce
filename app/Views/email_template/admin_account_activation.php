@@ -2,7 +2,7 @@
 <p>Bonjour</p>
 <p>Votre compte Beautyfashion à été créé avec succès.</p>
 <p>Veuillez Cliquer sur le bouton ci dessous pour l'activer.</p>
-<a href= "<?php echo base_url() . 'common/adminspace/login/activation/' . $token; ?>" style="color: white; 
+<a href= "<?php echo base_url() . 'common/adminspace/connexion/activation/' . $token; ?>" style="color: white; 
   border: none;padding: 10px 24px;
  background-color: #008CBA;display:inline-block; text-decoration:none;
  border-raduis:3px; box-shadow:0 2px 3px rgb(0,0,0,0.16);

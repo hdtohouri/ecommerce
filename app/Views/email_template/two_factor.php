@@ -2,7 +2,7 @@
 <p>Le code pour se connecter à votre compte Beauty Fashion est :</p>
 <p> <b><?php echo $code ?></b></p> 
 <p>Cliquez sur le bouton pour vous connecter.</p>
-<a href= "<?php echo base_url() . 'common/twofactor/login/' . $token; ?>" style="color: white; 
+<a href= "<?php echo base_url() . 'common/twofactor/connexion/' . $token; ?>" style="color: white; 
   border: none;padding: 10px 24px;
  background-color: #008CBA;display:inline-block; text-decoration:none;
  border-raduis:3px; box-shadow:0 2px 3px rgb(0,0,0,0.16);

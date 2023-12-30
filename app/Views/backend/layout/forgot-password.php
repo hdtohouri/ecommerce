@@ -11,7 +11,7 @@
         if (isset($special_message))
             echo $special_message;
     ?>
-    <form action="<?php echo base_url('common/adminspace/login/forgotpassword');?>" method="post">
+    <form action="<?php echo base_url('common/adminspace/connexion/forgotpassword');?>" method="post">
     <div class="mb-4 form-group">
             <input type="email" class="form-control form-control-user" id="email" name="email" value="<?= set_value('email') ?>" placeholder="Email" autofocus />
             <?php if (isset($validation) && $validation->hasError('email')) {
@@ -31,7 +31,7 @@
             </div>
             <div class="col-5">
                 <div class="input-group mb-0">
-                    <a class="text-decoration-none" href="<?php echo base_url('common/adminspace/login')?>">Se Connecter</a> 
+                    <a class="text-decoration-none" href="<?php echo base_url('common/adminspace/connexion')?>">Se Connecter</a> 
                 </div>
             </div>
         </div>

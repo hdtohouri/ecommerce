@@ -10,7 +10,7 @@
                     <ul>
                         <?php
                         foreach ($list_category as $category) : ?>
-                            <li class="text-capitalize"><a href="#"><?= $category['nom_categories'] ?></a></li>
+                            <li class="text-capitalize"><a href="<?php echo base_url('common/landingpage/display_by_cat/'.$category['id_categories']) ?>"><?= $category['nom_categories'] ?></a></li>
                         <?php endforeach; ?>
                     </ul>
                 </div>

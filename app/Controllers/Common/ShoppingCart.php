@@ -35,7 +35,7 @@ class ShoppingCart extends BaseController
             'price' => $product['product_price'],
             'image' => $product['product_image'],
             'quantity' => 1,
-            'options' => array('Size' => 'L', 'Color' => 'Red'),
+            'options' => array('Size' => $this->request->getPost('taille_name2'), 'Color' => $this->request->getPost('color_name1')),
         );
 
         if (session()->has('cart')) {

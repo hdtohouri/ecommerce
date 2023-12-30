@@ -133,6 +133,7 @@ class LandingPage extends BaseController
     public function get_details($id =null)
     {
         $product_manager = new Products();
+        
         if(isset($id) && $id != NULL){
             $product = $product_manager->where('product_name', $id)->first();
             $item = array(
@@ -143,6 +144,7 @@ class LandingPage extends BaseController
                 'description' => $product['product_description'],
                 'stock_quantity' => $product['product_quantity'],
                 'color' => $product['product_color'],
+                'taille' => $product['taille_product'],
                 'secondary_color' => $product['product_secondary_color'],
                 'quantity' => 1,
             );
@@ -151,10 +153,28 @@ class LandingPage extends BaseController
                 'item'=> $item,
                 'similaire'=> $similaire
             ];
-
+            
             return view('frontend/layout/product_details',$data);
         }
         return redirect()->to(base_url('common/landingpage/products'));
+    }
+
+    public function display_by_cat($id)
+    {
+        $pager = \Config\Services::pager();
+        $product_manager = new Products();
+        $category_infos = new Category();
+        $product_list = new Products();
+        
+        $data = [
+            'orders' => $product_list->orderBy('created_at', 'desc')->paginate(12, 'orders'),
+            'pager' => $product_list->pager,
+        ];
+        $data['products'] = $product_manager->asObject()->where('id_category',$id)->findAll();
+        
+        $data['list_category'] = $category_infos->list_categories();
+
+        return view('frontend/layout/display_by_category',$data);
     }
 
 

@@ -18,7 +18,7 @@
     <?php if (isset($error_message)) : ?>
         <div class="alert alert-danger"><?= $error_message ?></div>
     <?php else : ?>
-        <form action="<?php echo base_url('common/adminspace/login/reset_password/'.$token); ?>" method="post">
+        <form action="<?php echo base_url('common/adminspace/connexion/reset_password/'.$token); ?>" method="post">
             <div class="mb-4 form-group">
                 <input type="password" class="form-control form-control-user" id="password1" name="password1" value="<?= set_value('password1') ?>" placeholder="Saisir nouveau mot de passe" autofocus />
                 <?php if (isset($validation) && $validation->hasError('password1')) {
@@ -44,7 +44,7 @@
                 </div>
                 <div class="col-5">
                     <div class="input-group mb-0">
-                        <a href="<?php echo base_url('common/adminspace/login') ?>">Se Connecter</a>
+                        <a href="<?php echo base_url('common/adminspace/connexion') ?>">Se Connecter</a>
                     </div>
                 </div>
             </div>

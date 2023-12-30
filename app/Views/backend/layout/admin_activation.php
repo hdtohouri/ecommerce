@@ -20,7 +20,7 @@
                 </div>
                 <br>
                 <div class="text-center">
-                    <a class="btn btn-primary" href="<?php echo base_url('common/adminspace/login'); ?>">Se Connecter</a>
+                    <a class="btn btn-primary" href="<?php echo base_url('common/adminspace/connexion'); ?>">Se Connecter</a>
                 </div>
         </div>
     </div>
