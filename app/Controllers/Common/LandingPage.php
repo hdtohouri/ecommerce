@@ -136,6 +136,7 @@ class LandingPage extends BaseController
         
         if(isset($id) && $id != NULL){
             $product = $product_manager->where('product_name', $id)->first();
+           
             $item = array(
                 'id' => $product['id_product'],
                 'name' => $product['product_name'],
@@ -144,8 +145,8 @@ class LandingPage extends BaseController
                 'description' => $product['product_description'],
                 'stock_quantity' => $product['product_quantity'],
                 'color' => $product['product_color'],
-                'taille' => $product['taille_product'],
-                'secondary_color' => $product['product_secondary_color'],
+                'taille' =>  explode(",", $product['taille_product']),
+                'secondary_color' => explode(",", $product['product_secondary_color']),
                 'quantity' => 1,
             );
             $similaire = $product_manager->asObject()->where('id_category',$product['id_category'])->findAll();

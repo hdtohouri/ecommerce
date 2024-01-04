@@ -14,20 +14,15 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="checkout__input">
-                                    <p>Nom<span>*</span></p>
+                                    <p>Nom et Prénom<span>*</span></p>
+                                    <?php if (session('customers_username')) :?>
+                                    <input type="text" name="name" value="<?php echo session('customers_username') ?>">
+                                    <?php else :?>
                                     <input type="text" name="name" placeholder="Veuillez saisir votre nom">
                                     <?php if (isset($validation) && $validation->hasError('name')) {
                                         echo "<div style='color: #ff0000'>" . $validation->getError('name') . "</div>";
                                     } ?>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="checkout__input">
-                                    <p>Prénom<span>*</span></p>
-                                    <input type="text" name="lastname" placeholder="Veuillez saisir votre Prénom">
-                                    <?php if (isset($validation) && $validation->hasError('lastname')) {
-                                        echo "<div style='color: #ff0000'>" . $validation->getError('lastname') . "</div>";
-                                    } ?>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
@@ -35,28 +30,40 @@
                             <div class="col-lg-6">
                                 <div class="checkout__input">
                                     <p>Numero<span>*</span></p>
+                                    <?php if (session('customers_number')) :?>
+                                    <input type="tel" name="number" value="<?php echo session('customers_number') ?>">
+                                    <?php else :?>
                                     <input type="tel" name="number" placeholder="Veuillez saisir votre Numero">
                                     <?php if (isset($validation) && $validation->hasError('number')) {
                                         echo "<div style='color: #ff0000'>" . $validation->getError('number') . "</div>";
                                     } ?>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="checkout__input">
                                     <p>Adresse Email</p>
+                                    <?php if (session('customers_email')) :?>
+                                    <input type="email" name="email" value="<?php echo session('customers_email') ?>">
+                                    <?php else :?>
                                     <input type="email" name="email" placeholder="Veuillez saisir votre Adresse Email">
                                     <?php if (isset($validation) && $validation->hasError('email')) {
                                         echo "<div style='color: #ff0000'>" . $validation->getError('email') . "</div>";
                                     } ?>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
                         <div class="checkout__input">
                             <p>Addresse de livraison<span>*</span></p>
-                            <input type="text" name="addresse" placeholder="Veuillez saisir votre addresse de livraison (la Ville et le quartier)">
-                            <?php if (isset($validation) && $validation->hasError('addresse')) {
-                                echo "<div style='color: #ff0000'>" . $validation->getError('addresse') . "</div>";
-                            } ?>
+                                <?php if (session('customers_location')) :?>
+                                <input type="text" name="addresse" value="<?php echo session('customers_location') ?>">
+                                <?php else :?>
+                                <input type="text" name="addresse" placeholder="Veuillez saisir votre addresse de livraison (la Ville et le quartier)">
+                                <?php if (isset($validation) && $validation->hasError('addresse')) {
+                                    echo "<div style='color: #ff0000'>" . $validation->getError('addresse') . "</div>";
+                                } ?>
+                                <?php endif; ?>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-6">
@@ -78,7 +85,9 @@
                                     <option value="Paiement Par Airtel Money">Paiement Par Airtel Money</option>
                                     <option value="Paiement à la livraison">Paiement à la livraison</option>
                                 </select>
-
+                                <?php if (isset($validation) && $validation->hasError('mode_paiement')) {
+                                    echo "<div style='color: #ff0000'>" . $validation->getError('mode_paiement') . "</div>";
+                                } ?>
                             </div>
 
                             <button type="submit" class="site-btn">PASSER COMMANDE</button>
@@ -92,4 +101,24 @@
     <?php endif; ?>
 </div>
 <br><br><br>
+<script>
+    <?php if (session()->has('success_message')) : ?>
+        Toastify({
+            text: "<?= session('success_message') ?>",
+            duration: 5000,
+            position: "right",
+            gravity: "top",
+            close: true
+        }).showToast();
+    <?php elseif (session()->has('error_message')) : ?>
+        Toastify({
+            text: "<?= session('error_message') ?>",
+            duration: 5000,
+            position: "right",
+            gravity: "top",
+            close: true,
+            backgroundColor: "red"
+        }).showToast();
+    <?php endif; ?>
+</script>
 <?= $this->endSection() ?>

@@ -15,7 +15,7 @@
 		/>
 		
 		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-		<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+		<script src=<?php echo base_url("/frontend/js/jquery-3.3.1.min.js") ?>></script>
 		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
 		<!-- Mobile Specific Metas -->
@@ -66,6 +66,7 @@
 		<script src=<?php echo base_url("/backend/vendors/scripts/core.js") ?> ></script>
 		<script src=<?php echo base_url("/backend/vendors/scripts/script.min.js") ?> ></script>
 		<script src=<?php echo base_url("/backend/vendors/scripts/process.js") ?> ></script>
+		
 		<script src=<?php echo base_url("/backend/vendors/scripts/layout-settings.js") ?> ></script>
         <?= $this->renderSection('scripts')?> 
 	</body>

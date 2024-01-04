@@ -30,10 +30,7 @@
                                             <td class="shoping__cart__quantity">
                                                 <div class="quantity">
                                                     <div class="pro-qty">
-                                                        <input type="button" value="-" id="moins" onclick="moins()" class="dec qtybtn">
                                                         <input type="number" name="quantity[]" id="badge" value="<?= $item['quantity'] ?>" min="1">
-                                                        <input type="button" value="+" id="plus" onclick="plus()" class="inc qtybtn">
-                                                        
                                                     </div>
                                                 </div>
                                             </td>

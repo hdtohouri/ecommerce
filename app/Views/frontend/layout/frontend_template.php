@@ -27,7 +27,6 @@
     <link rel="stylesheet" href=<?php echo base_url("backend/src/plugins/sweetalert2/sweetalert2.css") ?> type="text/css">
     <link rel="stylesheet" type="text/css" href=<?php echo base_url("/backend/vendors/styles/icon-font.min.css") ?>/>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-		<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
 		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <?= $this->renderSection('stylesheets') ?>
 </head>

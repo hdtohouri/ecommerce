@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
+use CodeIgniter\I18n\Time;
 
 class Customer extends Model
 {
@@ -125,5 +126,59 @@ class Customer extends Model
             return false;
         }
     }
+
+    public function update_email_token($token, $id)
+    {
+        $builder = $this->db->table('customers');
+        $builder->where('customers_id', $id);
+        $now = new Time('now');
+        $formattedDate = $now->format('Y-m-d H:i:s');
+        $builder->update(['reset_password_token' => $token, 'reset_password_token_created_at' => $formattedDate]);
+        if ($this->db->affectedRows() == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function verifyToken($token)
+    {
+        $builder = $this->db->table('customers');
+        $builder->select('customers_id, customers_username, reset_password_token_created_at');
+        $builder->where('reset_password_token', $token);
+        $result = $builder->get();
+        $row = $result->getRowArray();
+        if (count($result->getResultArray()) == 1) {
+            return $row['reset_password_token_created_at'];
+        } else {
+            return false;
+        }
+    }
+
+    public function checkExpireDate($time)
+    {
+        $update_time = strtotime($time);
+        $current_time = time();
+        $time_diff = (($current_time - $update_time) / 60);
+        if ($time_diff < 10) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function reset_user_password($token, $password)
+    {
+        $builder = $this->db->table('customers');
+        $builder->where('reset_password_token', $token);
+        $builder->update(['user_password' => password_hash($password, PASSWORD_DEFAULT), 'password_modification_flag' => 'YES']);
+        if ($this->db->affectedRows() == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
 
 }

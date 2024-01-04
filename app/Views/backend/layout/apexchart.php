@@ -1,5 +1,6 @@
 <div class="row pb-10">
     <div class="col-md-8 mb-20 bg-white" id="chart">
+        <script src="<?php echo base_url('backend/vendors/scripts/apexcharts-setting.js') ?>"></script>
         <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
         <script>
             var options = {

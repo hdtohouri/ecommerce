@@ -118,6 +118,14 @@ class Login extends BaseController
                     'required' => "Veuillez saisir votre numero de téléphone",
                 ],
 
+            ],
+            'email' => [
+                'label'  => 'Veuillez saisir votre adresse email',
+                'rules'  => 'required',
+                'errors' => [
+                    'required' => "Veuillez saisir votre adresse emai",
+                ],
+
             ]
         );
 
@@ -140,6 +148,7 @@ class Login extends BaseController
         $user_name = $this->request->getPost('username', FILTER_SANITIZE_STRING);
         $user_password = $this->request->getPost('password', FILTER_SANITIZE_STRING);
         $user_location = $this->request->getPost('location', FILTER_SANITIZE_STRING);
+        $user_email = $this->request->getPost('email', FILTER_SANITIZE_EMAIL);
         $hashpassword = password_hash($user_password,PASSWORD_DEFAULT);
         $user_number = $this->request->getPost('number', FILTER_SANITIZE_NUMBER_INT);
 
@@ -148,6 +157,7 @@ class Login extends BaseController
         $data = [
             'customers_username' => $user_name,
             'customers_password'=> $hashpassword ,
+            'customers_email'  => $user_email ,
             'customers_location'=> $user_location,
             'customers_number'=> $user_number,
         ];
@@ -221,38 +231,119 @@ class Login extends BaseController
                 $email->setSubject('Demande de réinitialisation du mot de passe');
                 $email->setMessage($message);
                 if($email->send()){
-                        $message = '<div class="alert alert-success alert-dismissible fade show">
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        $message = '<div class="alert alert-success">
                                         Le lien pour réinitialiser votre mot de passe vous à été envoyé par mail. Il est valide pour 10 min.
                                     </div>';
                         echo view('frontend/layout/users/user_forgotpassword_screen', array('special_message' => $message));
                         $password_manager->update_email_token($token, $send_link ['row']['customers_id']);
                     }
                 else{
-                        $message = '<div class="alert alert-danger alert-dismissible fade show">
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                                   Le lien de réinitialisation n\'à pas été envoyé, Merci de réessayer.
+                        $message = '<div class="alert alert-danger">
+                                   Le lien de réinitialisation n\'à pas été envoyé. Merci de réessayer.
                                 </div>';
                         echo view('frontend/layout/users/user_forgotpassword_screen', array('special_message' => $message));
                         return;
                 }
     
             } else {
-                        $message = '<div class="alert alert-danger alert-dismissible fade show">
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        $message = '<div class="alert alert-danger">
                                     Cette adresse email n\'appartient à aucun utilisateur.
                                 </div>';
                         echo view('frontend/layout/users/user_forgotpassword_screen', array('special_message' => $message));
                         return;
             }
         }else{
-                $message = '<div class="alert alert-danger alert-dismissible fade show">
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                                Votre Compte n\'est pas actif, Merci de contacter la présidence de Beautyfashion pour sa réactivation.
+                $message = '<div class="alert alert-danger">
+                                Votre Compte n\'est pas actif. Merci de contacter la présidence de Beautyfashion pour sa réactivation.
                             </div>';
                 echo view('frontend/layout/users/user_forgotpassword_screen', array('special_message' => $message));
                 return;
         }
         return view('frontend/layout/users/user_forgotpassword_screen');
+    }
+
+    public function reset_password($token = null)
+    {
+        $validation_rules = array(
+            'password' => [
+                'label'  => 'Saisir nouveau mot de passe',
+                'rules'  => 'required|min_length[5]|max_length[10]',
+                'errors' => [
+                    'required' => "Veuillez saisir votre nouveau mot de passe",
+                    'min_length' => "Le nouveau mot de passe ne peut pas contenir moins de 5 caratères",
+                    'max_length' => "Le nouveau mot de passe ne peut pas contenir plus de 10 caratères",
+                ],
+
+            ],
+            'password1' => [
+                'label'  => 'Email',
+                'rules'  => 'required|matches[password1]',
+                'errors' => [
+                    'required' => "Veuillez saisir le nouveau mot de passe",
+                    'matches' => "Les mots de passe ne correspondent pas",
+                ],
+
+            ]
+        );
+
+        $password_manager = new Customer();
+
+        if(!empty($token)){
+            if($update_time = $password_manager->verifyToken($token)){
+                if($expiration= $password_manager->checkExpireDate($update_time)){
+                    if ($this->validate($validation_rules) === false) {
+                        $method = $this->request->getMethod();
+                        switch ($method) {
+                            case 'post':
+                                echo view('frontend/layout/users/reset_user_password', [
+                                    'token' => $token,
+                                    'validation' => $this->validator
+                                ]);
+                                break;
+                            case 'get':
+                                $message = session()->getFlashdata('special_message');
+                                echo view('frontend/layout/users/reset_user_password', [
+                                    'token' => $token,
+                                    'special_message' => $message
+                                ]);
+                                break;
+                            default:
+                                die('something is wrong here');
+                        }
+                        return;
+                    }
+                    
+                    $user_password = $this->request->getPost('password1');
+                    $change_password = $password_manager->reset_user_password($token, $user_password);
+
+                    if($change_password){
+                        $message = "<div class='alert alert-success' role='alert'>Le mot de passe à été changé avec success.</div>";
+                        return view('frontend/layout/users/reset_user_password', [
+                            'token' => $token,
+                            'special_message' => $message
+                        ]);
+                    }else{
+                        $message = "<div class='alert alert-danger' role='alert'>Le mot de passe n'à été changé. Merci de réessayer.</div>";
+                        return view('frontend/layout/users/reset_user_password', [
+                            'token' => $token,
+                            'special_message' => $message
+                        ]);
+                    }
+            
+                }else{
+                    $message = "<div class='alert alert-danger' role='alert'>Le lien de réinitialisation du mot de passe a expiré.</div>";
+                    return view('frontend/layout/users/reset_user_password', array('error_message' => $message));
+                }
+            }else{
+                $message = "<div class='alert alert-danger' role='alert'>Le lien de réinitialisation du mot de passe n'est pas réconnu</div>";
+                return view('frontend/layout/users/reset_user_password', array('error_message' => $message));
+            }
+
+        }else{
+            $message = "<div class='alert alert-danger' role='alert'>Accès non authorisé. Merci de vous identifier</div>";
+            return view('frontend/layout/users/reset_user_password', array('error_message' => $message));
+         }
+        
+        return  view('frontend/layout/users/reset_user_password');
     }
 }

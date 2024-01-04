@@ -28,6 +28,13 @@ class ShoppingCart extends BaseController
     {
         $product_manager = new Products();
         $product = $product_manager->find($id);
+      /*  $colorsSelected = $this->request->getPost('color_name');
+
+// Vous pouvez accéder aux couleurs sélectionnées à partir de $colorsSelected
+// Par exemple, si vous voulez les afficher :
+foreach ($colorsSelected as $color) {
+    echo $color; // Faites ce que vous souhaitez avec chaque couleur sélectionnée
+}*/
 
         $item = array(
             'id' => $product['id_product'],
@@ -35,7 +42,7 @@ class ShoppingCart extends BaseController
             'price' => $product['product_price'],
             'image' => $product['product_image'],
             'quantity' => 1,
-            'options' => array('Size' => $this->request->getPost('taille_name2'), 'Color' => $this->request->getPost('color_name1')),
+            'options' => array('Size' => $this->request->getPost('taille_name2'), 'Color' => $this->request->getPost('color_name')),
         );
 
         if (session()->has('cart')) {
@@ -132,13 +139,6 @@ class ShoppingCart extends BaseController
                         'required' => "Veuillez saisir votre nom",
                     ],
                 ],
-                'lastname' => [
-                    'label'  => "Veuillez saisir votre Prénom",
-                    'rules'  => 'required',
-                    'errors' => [
-                        'required' => "Veuillez saisir votre Prénom",
-                    ],
-                ],
                 'number' => [
                     'label'  => "Veuillez saisir votre Numero",
                     'rules'  => 'required',
@@ -162,7 +162,7 @@ class ShoppingCart extends BaseController
                     'label'  => "Veuillez Choisir une méthode de paiement",
                     'rules'  => 'required',
                     'errors' => [
-                        'required' => "Veuillez Choisir une méthode de paiement",
+                        'required' => "Veuillez Choisir le mode de paiement",
                     ],
                 ],
             );
@@ -185,7 +185,6 @@ class ShoppingCart extends BaseController
             }
 
             $customer_name = $this->request->getPost('name', FILTER_SANITIZE_STRING);
-            $customer_lastname = $this->request->getPost('lastname', FILTER_SANITIZE_STRING);
             $customer_number = $this->request->getPost('number');
             $customer_email = $this->request->getPost('email', FILTER_SANITIZE_EMAIL);
             $customer_adresse = $this->request->getPost('addresse', FILTER_SANITIZE_STRING);
@@ -241,37 +240,48 @@ class ShoppingCart extends BaseController
                 ]);
             }   
 
-        if($order_data_inserted && $insert_cart && $user_data_inserted)
+            $array = [
+                'user_data' => $user_data,
+                'order_data' => $order_data,
+                'data' => $data
+            ];
+
+            if($order_data_inserted && $insert_cart && $user_data_inserted)
             {
-                $email = \Config\Services::email();
+                if ($customer_email)
+                {
+                    $email = \Config\Services::email();
 
                     $fromEmail = getenv('EMAIL_FROM');
                     $fromName = getenv('EMAIL_FROM_NAME');
                     
                     $email->setFrom($fromEmail , $fromName);
                     $email->setTo($customer_email);   
-                    $array = [
-                        'user_data' => $user_data,
-                        'order_data' => $order_data,
-                        'data' => $data
-                    ];
+                    
                     $message = view('email_template/send_order_details',$array);
                     $email->setSubject('Commande Reçue');  
                     $email->setMessage($message);
                     
                     if($email->send()){
-                        return redirect()->to(base_url('common/shoppingcart/payment_success'));
+                        return redirect()->to(base_url('common/shoppingcart/payment_success'))->with('array',$array);
                     }
                     else{
-                        return;
+                        session()->setFlashdata('error_message', 'Une erreur est survenue. Le resumé de la commande n\'a pas été envoyé par email. ');
+                        return redirect()->to(base_url('common/shoppingcart/payment_success'))->with('array',$array);
                     }
-                
+                }
+                else{
+                    return redirect()->to(base_url('common/shoppingcart/payment_success'))->with('array',$array);
+                }
                 
             }
             else{
-                echo 'failed';
+                
+                session()->setFlashdata('error_message', 'Une erreur est survenue. Merci de reésayer.');
+                return redirect()->to(base_url('common/shoppingcart/payment'));
             }
         }else{
+            session()->setFlashdata('error_message', 'Une erreur est survenue. Merci de reésayer.');
             return redirect()->to(base_url());
         }
         

@@ -19,35 +19,50 @@
                     <p><?= $item['description'] ?></p>
 
                     <ul></ul>
-                    <?php if ($item['secondary_color'] || $item['color'] || $item['taille']) : ?>
+                    <?php if ($item['secondary_color'] || $item['taille']) : ?>
                         <form action="<?php echo base_url('common/shoppingcart/cart/') . $item['id'] ?>" method="post">
-                            <table>
-                                <tbody>
-                                    <?php if ($item['secondary_color']) : ?>
-                                        <tr>
-                                            <div class="sidebar__item sidebar__item__color--option">
-                                                <h6 class="mb-2"><b>Couleur</b></h6>
-                                                <div>
-                                                    <div class="cercle" id="maDiv" style="background-color: <?php echo $item['color']; ?>">
-                                                        <input type="checkbox" name="color_name" value="<?= $item['color']; ?>" hidden>
-                                                    </div>
-                                                </div>
+
+                            <?php if ($item['secondary_color']) : ?>
+                                <div class="sidebar__item sidebar__item__color--option">
+                                    <h6 class="mb-2"><b>Couleur</b></h6>
+                                    <table>
+                                        <tbody>
+                                            <div>
+                                                <tr>
+                                                    <?php foreach ($item['secondary_color'] as $color) : ?>
+                                                        <td>
+                                                            <div class="cercle" id="maDiv" style="background-color: <?php echo $color; ?>" data-color="<?= $color; ?>">
+                                                                <input type="text" name="color_name[]" value="<?= $color; ?>" hidden>
+                                                            </div>
+                                                        </td>
+                                                    <?php endforeach; ?>
+                                                </tr>
                                             </div>
-                                        </tr>
-                                    <?php endif; ?>
-                                </tbody>
-                                <?php if ($item['taille']) : ?>
-                                    <div class="sidebar__item">
-                                        <h6 class="mb-2"><b>Taille</b></h6>
-                                        <div class="sidebar__item__size">
-                                            <label for="large">
-                                                <?php echo $item['taille']; ?>
-                                                <input type="radio" id="large" name="taille_name2">
-                                            </label>
-                                        </div>
-                                    </div>
-                                <?php endif; ?>
-                            </table>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php if ($item['taille']) : ?>
+                                <div class="sidebar__item">
+                                    <h6 class="mb-2"><b>Taille</b></h6>
+                                    <table>
+                                        <tbody>
+                                            <div class="sidebar__item__size">                                                
+                                                    <tr>
+                                                        <?php foreach ($item['taille'] as $taille) : ?>
+                                                            <td>                                                                
+                                                                <?php echo $taille; ?>
+                                                                
+                                                            </td>
+                                                        <?php endforeach; ?>
+                                                    </tr>
+                                            </div>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            <?php endif; ?>
+
                             <button type="submit" class="primary-btn border-0">Ajouter au panier</button>
                             <a href="<?php echo base_url('common/favoris/add_favoris/' . $item['id']) ?>" class="heart-icon"><span class="icon_heart_alt"></span></a>
                         </form>
@@ -104,22 +119,27 @@
         }).showToast();
     <?php endif; ?>
 
-    var maDiv = document.getElementById('maDiv');
+    // Sélection de tous les éléments avec la classe 'cercle'
+var cercles = document.querySelectorAll('.cercle');
 
-    // Ajout d'un gestionnaire d'événements 'click'
-    maDiv.addEventListener('click', function() {
+// Parcours des éléments et ajout d'un gestionnaire d'événements 'click' à chacun
+cercles.forEach(function(cercle) {
+    cercle.addEventListener('click', function() {
+        var couleurSelectionnee = this.getAttribute('data-color');
         Toastify({
-            text: "Couleur ajoutéé",
+            text: "Couleur sélectionnée : " + couleurSelectionnee,
             duration: 4000,
             position: "right",
             gravity: "top",
             close: true
         }).showToast();
-        console.log('La div a été cliquée !');
-        // Ajoutez ici le code pour gérer le clic sur la div
+        console.log('Couleur sélectionnée : ' + couleurSelectionnee);
+        // Ajoutez ici le code pour gérer la couleur sélectionnée
     });
+});
+
 </script>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+<script src=<?php echo base_url("/frontend/js/jquery-3.3.1.min.js") ?>></script>
 <script src=<?php echo base_url("frontend/js/jquery.floating-social-share.min") ?>></script>
 <script>
     var currentURL = "<?= base_url('common/landingpage/get_details/' . $item['name']); ?>";
